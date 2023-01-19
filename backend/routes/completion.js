@@ -1,0 +1,21 @@
+import { Router } from 'express';
+import API from "./api.js";
+import { getCompletion } from './api.js';
+
+const router = Router();
+
+router.post('/', async (req, res, next) => {
+    try {
+        const prompt = req.body.prompt;
+        const response = await getCompletion(prompt);
+
+        res.status(200).send({
+            bot: response.text
+        })
+    } catch (error) {
+        // console.log(error);
+        res.status(500).send({ error })
+    }
+});
+
+export default router;
