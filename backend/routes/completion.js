@@ -1,6 +1,5 @@
 import { Router } from 'express';
-import API from "./api.js";
-import { getCompletion } from './api.js';
+import { getCompletion } from '../services/API.js';
 
 const router = Router();
 

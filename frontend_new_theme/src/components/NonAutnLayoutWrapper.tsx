@@ -44,9 +44,10 @@ const NonAuthLayoutWrapper = (props: NonAuthLayoutWrapperProps) => {
                     <Col xl={12}>
                       <div className="text-center text-muted p-4">
                         <p className="mb-0">
-                          &copy; {new Date().getFullYear()} Doot. Crafted with{" "}
+                          &copy; {new Date().getFullYear()} TELICO
+                          {/*Crafted with{" "}
                           <i className="mdi mdi-heart text-danger"></i> by
-                          Themesbrand
+                          Themesbrand*/}
                         </p>
                       </div>
                     </Col>

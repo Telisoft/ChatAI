@@ -5,3 +5,16 @@ backend/.idea/modules.xml
 backend/.idea/vcs.xml
 backend/yarn.lock
 frontend/yarn.lock
+*.log
+frontend_new_theme/.idea/codeStyles/codeStyleConfig.xml
+frontend_new_theme/.idea/codeStyles/Project.xml
+frontend_new_theme/.idea/frontend_new_theme.iml
+frontend_new_theme/.idea/inspectionProfiles/Project_Default.xml
+frontend_new_theme/.idea/misc.xml
+frontend_new_theme/.idea/modules.xml
+frontend_new_theme/.idea/vcs.xml
+frontend_new_theme/.idea/workspace.xml
+frontend_new_theme/.idea/workspace.xml
+frontend_new_theme/.idea/workspace.xml
+frontend_new_theme/.idea/workspace.xml
+*.lock

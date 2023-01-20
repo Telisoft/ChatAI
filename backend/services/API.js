@@ -1,8 +1,8 @@
 import * as dotenv from 'dotenv';
+
 import { Configuration, OpenAIApi } from 'openai';
 
 dotenv.config();
-
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
     organization: process.env.ORGANIATION_ID,
@@ -11,10 +11,8 @@ const configuration = new Configuration({
 const API = new OpenAIApi(configuration);
 
 let chatData = ''
-
 // Prompt description
 function getPromptDescription(id) {
-
     let desc = ''
     desc = 'Chat with AI Friend where your AI Friend respond in cheerful, Valley girl, American English.\n\n'
     /*switch(id) {
@@ -46,7 +44,7 @@ export const getCompletion = async(message) => {
 
     // check token count
     const tokenPrompt = parseInt(prompt.length / 4) // we are making simple assumption that 4 chars = 1 token
-    if (tokenPrompt > 100) {
+    if (tokenPrompt > 2000) {
         /*
         The actual maximum number of tokens is around 2048 (new models support 4096).
         But I do not plan to hit it but put the ceiling a bit much lower then remove
@@ -68,15 +66,14 @@ export const getCompletion = async(message) => {
             model: "text-davinci-003",
             prompt: prompt,
             temperature: 0.5,
-            max_tokens: 1000,
+            max_tokens: 2000,
             top_p: 1,
             frequency_penalty: 0.5,
             presence_penalty: 0,
             stop:["You:"]
         })
 
-        reply = completion.data.choices[0].text.split('AI Friend:')[1].trim()
-
+        reply = completion.data.choices[0].text.split('AI Friend:')[1].trim();
     } catch(error) {
         console.log(error)
     }
@@ -90,6 +87,5 @@ export const getCompletion = async(message) => {
         text: reply,
     }
 }
-
 
 export default API

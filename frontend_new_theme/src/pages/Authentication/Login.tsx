@@ -4,7 +4,7 @@ import { Alert, Button, Col, Form, Label, Row, UncontrolledTooltip } from "react
 import { GoogleLogin } from "react-google-login";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 // router
-import { Link, Redirect, useHistory, useLocation } from "react-router-dom";
+import { Redirect, useHistory, useLocation } from "react-router-dom";
 // validations
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -37,6 +37,8 @@ const Login = (props: LoginProps) => {
       isUserLogout: state.Login.isUserLogout,
     })
   );
+
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   const history: any = useHistory();
   const location = useLocation<LocationTypes>();
@@ -112,6 +114,13 @@ const Login = (props: LoginProps) => {
     signIn(response, "google");
   };
 
+  const handlePhoneNumberChange = (event: any) => {
+    const limit = 10;
+
+    // 👇️ only take first N characters
+    setPhoneNumber(event.target.value.slice(0, limit));
+  };
+
   return (
     <NonAuthLayoutWrapper>
       <Row className=" justify-content-center my-auto">
@@ -119,7 +128,7 @@ const Login = (props: LoginProps) => {
           <div className="py-md-5 py-4">
             <AuthHeader
               title="Welcome Back !"
-              subtitle="Sign in to continue to Doot."
+              subtitle="Sign in to continue to TELICO."
             />
 
             {error && <Alert color="danger">{error}</Alert>}
@@ -131,19 +140,23 @@ const Login = (props: LoginProps) => {
               {loginLoading && <Loader />}
               <div className="mb-3">
                 <FormInput
-                  label="Username"
-                  type="text"
-                  name="email"
+                  label="Phone Number"
+                  type="number"
+                  name="phone_number"
+                  maxLength={10}
+                  max={9999999999}
                   register={register}
                   errors={errors}
                   control={control}
+                  value={phoneNumber}
                   labelClassName="form-label"
-                  placeholder="Enter username"
+                  placeholder="Enter phone number"
                   className="form-control"
+                  onChange={handlePhoneNumberChange}
                 />
               </div>
 
-              <div className="mb-3">
+              {/*<div className="mb-3">
                 <FormInput
                   label="Password"
                   type="password"
@@ -155,7 +168,7 @@ const Login = (props: LoginProps) => {
                   className="form-control pe-5"
                   placeholder="Enter Password"
                 />
-              </div>
+              </div>*/}
 
               <div className="form-check form-check-info font-size-16">
                 <input
@@ -246,7 +259,7 @@ const Login = (props: LoginProps) => {
               </div>
             </Form>
 
-            <div className="mt-5 text-center text-muted">
+            {/*<div className="mt-5 text-center text-muted">
               <p>
                 Don't have an account ?{" "}
                 <Link
@@ -257,7 +270,7 @@ const Login = (props: LoginProps) => {
                   Register
                 </Link>
               </p>
-            </div>
+            </div>*/}
           </div>
         </Col>
       </Row>
