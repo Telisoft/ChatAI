@@ -12,7 +12,7 @@ import {
   receiveMessage,
   receiveMessageFromUser,
   toggleArchiveContact,
-  toggleUserDetailsTab
+  toggleUserDetailsTab,
 } from "../../../redux/actions";
 // hooks
 import { useProfile } from "../../../hooks";
@@ -96,10 +96,6 @@ const Index = ({ isChannel }: IndexProps) => {
       setTimeout(() => {
         dispatch(readMessage(chatUserDetails.id));
       }, 1500);
-      setTimeout(() => {
-        console.log('343434343434',  chatUserDetails.id);
-        dispatch(receiveMessageFromUser({id: chatUserDetails.id, text: params.text}));
-      }, 2000);
     }
     setReplyData(null);
   };

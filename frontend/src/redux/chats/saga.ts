@@ -135,12 +135,11 @@ function* onSendMessage({ payload: data }: any) {
 
 function* onSendMessageBackend({ payload: data }: any) {
   try {
-    console.log(data);
     const response: string = yield call(sendMessageBackend, { prompt: data.text });
-    console.log('onSendMessageBackend:', response);
     yield put(
       chatsApiResponseSuccess(ChatsActionTypes.ON_SEND_MESSAGE, response)
     );
+    yield put({type: ChatsActionTypes.RECEIVE_MESSAGE_FROM_USER, payload: {id: data.meta.receiver, text: response}});
   } catch (error: any) {
     console.log('error:', error);
     yield put(chatsApiResponseError(ChatsActionTypes.ON_SEND_MESSAGE, error));
@@ -169,8 +168,7 @@ function* readMessage({ payload: id }: any) {
 
 function* receiveMessageFromUser({ payload: { id, text } }: any) {
   try {
-    const { bot } = yield call(sendMessageBackend, { prompt: text });
-    const response: Promise<any> = yield call(receiveMessageFromUserApi, id, bot);
+    const response: Promise<any> = yield call(receiveMessageFromUserApi, id, text.bot);
     yield put(
       chatsApiResponseSuccess(
         ChatsActionTypes.RECEIVE_MESSAGE_FROM_USER,
