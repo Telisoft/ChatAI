@@ -1,5 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import count from 'openai-gpt-token-counter';
+import { Firestore } from "@google-cloud/firestore";
 import * as dotenv from 'dotenv';
 
 import { Configuration, OpenAIApi } from 'openai';
@@ -106,9 +107,8 @@ export const getChatCompletion = async (input) => {
     }
 
     messages.push({"role": "user", "content": input});
-    console.log("messages", messages);
+
     try {
-        console.log("token size:", tokenCount)
         const response = await API.createChatCompletion({
             model: "gpt-3.5-turbo",
             messages: messages,
@@ -124,7 +124,6 @@ export const getChatCompletion = async (input) => {
         const output = data["choices"][0]["message"]["content"];
         tokenCount = data["usage"]["total_tokens"];
 
-        console.log("output", output);
         // update message
         messages.push({"role": data["choices"][0]["message"]["role"], "content": output});
 

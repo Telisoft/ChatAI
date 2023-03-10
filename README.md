@@ -1,15 +1,13 @@
 # ChatAI
+This project is AI Assistant using OpenAI API.
 
 ## frontend
-This is AI Chat Application that build using Fuse theme.
-
-## frontend_new_theme
-This is AI Chat Application that build using Doot chat theme.
+This is a frontend build using Doot Chat Theme.
 
 ## backend
-This is express server for AI Chat Application.
+This is a backend application using .
 
 ## backend
-You can refer the Readme on sub directories to build this project.
+You can refer the Readme on sub directories to build each project.
 
 

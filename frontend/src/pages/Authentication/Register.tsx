@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Alert, Button, Col, Form, Row, UncontrolledTooltip } from "reactstrap";
 // hooks
 import { useRedux } from "../../hooks/index";
@@ -30,6 +30,8 @@ const Register = (props: RegisterProps) => {
     isUserRegistered: state.Register.isUserRegistered,
   }));
 
+  const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+
   const resolver = yupResolver(
     yup.object().shape({
       email: yup
@@ -37,7 +39,7 @@ const Register = (props: RegisterProps) => {
         .email("This value should be a valid email.")
         .required("Please Enter E-mail."),
       username: yup.string().required("Please Enter E-mail."),
-      password: yup.string().required("Please Enter Password."),
+      phone_number: yup.string().matches(phoneRegExp, 'Phone number is not valid'),
     })
   );
 
@@ -68,7 +70,7 @@ const Register = (props: RegisterProps) => {
           <div className="py-md-5 py-4">
             <AuthHeader
               title="Register Account"
-              subtitle="Get your free Doot account now."
+              subtitle="Get your free Telico account now."
             />
 
             {user && user ? (
@@ -84,6 +86,20 @@ const Register = (props: RegisterProps) => {
               className="position-relative"
             >
               {regLoading && <Loader />}
+              <div className="mb-3">
+                <FormInput
+                  label="Phone Number"
+                  type="string"
+                  maxLength={10}
+                  name="phone_number"
+                  register={register}
+                  errors={errors}
+                  control={control}
+                  labelClassName="form-label"
+                  placeholder="Enter phone number"
+                  className="form-control"
+                />
+              </div>
               <div className="mb-3">
                 <FormInput
                   label="Email"
@@ -112,7 +128,7 @@ const Register = (props: RegisterProps) => {
                 />
               </div>
 
-              <div className="mb-3">
+              {/*<div className="mb-3">
                 <FormInput
                   label="Password"
                   type="password"
@@ -124,16 +140,7 @@ const Register = (props: RegisterProps) => {
                   className="form-control pe-5"
                   placeholder="Enter Password"
                 />
-              </div>
-
-              <div className="mb-4">
-                <p className="mb-0">
-                  By registering you agree to the Doot{" "}
-                  <Link to="#" className="text-primary">
-                    Terms of Use
-                  </Link>
-                </p>
-              </div>
+              </div>*/}
 
               <div className="text-center mb-3">
                 <Button
@@ -143,55 +150,6 @@ const Register = (props: RegisterProps) => {
                 >
                   Register
                 </Button>
-              </div>
-              <div className="mt-4 text-center">
-                <div className="signin-other-title">
-                  <h5 className="font-size-14 mb-4 title">Sign up using</h5>
-                </div>
-                <Row className="">
-                  <div className="col-4">
-                    <div>
-                      <button
-                        type="button"
-                        className="btn btn-light w-100"
-                        id="facebook"
-                      >
-                        <i className="mdi mdi-facebook text-indigo"></i>
-                      </button>
-                    </div>
-                    <UncontrolledTooltip placement="top" target="facebook">
-                      Facebook
-                    </UncontrolledTooltip>
-                  </div>
-                  <div className="col-4">
-                    <div>
-                      <button
-                        type="button"
-                        className="btn btn-light w-100"
-                        id="twitter"
-                      >
-                        <i className="mdi mdi-twitter text-info"></i>
-                      </button>
-                    </div>
-                    <UncontrolledTooltip placement="top" target="twitter">
-                      Twitter
-                    </UncontrolledTooltip>
-                  </div>
-                  <div className="col-4">
-                    <div>
-                      <button
-                        type="button"
-                        className="btn btn-light w-100"
-                        id="google"
-                      >
-                        <i className="mdi mdi-google text-danger"></i>
-                      </button>
-                    </div>
-                    <UncontrolledTooltip placement="top" target="google">
-                      Google
-                    </UncontrolledTooltip>
-                  </div>
-                </Row>
               </div>
             </Form>
 
