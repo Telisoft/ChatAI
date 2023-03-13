@@ -65,8 +65,8 @@ export const onSendMessage = (data: any) => ({
   payload: data,
 });
 
-export const onSendMessageBackend = (data: any) => ({
-  type: ChatsActionTypes.ON_SEND_MESSAGE_BACKEND,
+export const onSendMessageToAI = (data: any) => ({
+  type: ChatsActionTypes.ON_SEND_MESSAGE_TO_AI,
   payload: data,
 });
 

@@ -1,5 +1,6 @@
 // types
 import { ChatsActionTypes, ChatsState } from "./types";
+import { conversations, onChangeConversations } from "../../data";
 
 export const INIT_STATE: ChatsState = {
   favourites: [],
@@ -7,7 +8,9 @@ export const INIT_STATE: ChatsState = {
   channels: [],
   selectedChat: null,
   chatUserDetails: {},
-  chatUserConversations: {},
+  chatUserConversations: {
+    messages: []
+  },
   isOpenUserDetails: false,
   channelDetails: {},
   archiveContacts: [],
@@ -76,11 +79,13 @@ const Chats = (state = INIT_STATE, action: any) => {
           };
         case ChatsActionTypes.RECEIVE_MESSAGE:
         case ChatsActionTypes.RECEIVE_MESSAGE_FROM_USER:
+          console.log('RECEIVE_MESSAGE_FROM_USER: action.payload.data: ', action.payload.data);
           return {
             ...state,
             chatUserConversations: action.payload.data,
           };
         case ChatsActionTypes.READ_MESSAGE:
+          console.log('READ_MESSAGE: action.payload.data: ', action.payload.data);
           return {
             ...state,
             isMessageRead: true,
@@ -129,6 +134,17 @@ const Chats = (state = INIT_STATE, action: any) => {
           return {
             ...state,
             isImageDeleted: true,
+          };
+        case ChatsActionTypes.ON_SEND_MESSAGE_TO_AI:
+          console.log(action.payload);
+          return {
+            ...state,
+            chatUserConversations: {
+              messages: [
+                ...state.chatUserConversations.messages,
+                action.payload.data
+              ]
+            },
           };
         default:
           return { ...state };
@@ -293,6 +309,36 @@ const Chats = (state = INIT_STATE, action: any) => {
       return {
         ...state,
         isUserMessageSent: false,
+      };
+    case ChatsActionTypes.ON_SEND_MESSAGE_TO_AI:
+      const data = action.payload;
+      const message: any = {
+        ...data,
+        text: data.text,
+        time: data.time,
+        sent: true,
+        received: true,
+        read: false,
+      };
+      if (data.image && data.image.length) {
+        message["image"] = data.image;
+      }
+      if (data.attachments && data.attachments.length) {
+        message["attachments"] = data.attachments;
+      }
+      if (data.replyOf) {
+        message["replyOf"] = data.replyOf;
+      }
+
+      return {
+        ...state,
+        chatUserConversations: {
+          ...state.chatUserConversations,
+          messages: [
+            ...state.chatUserConversations.messages,
+            message
+          ]
+        }
       };
     case ChatsActionTypes.DELETE_MESSAGE:
       return {
