@@ -58,12 +58,12 @@ const Login = (props: LoginProps) => {
 
   const resolver = yupResolver(
     yup.object().shape({
-      phone_number: yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+      phoneNumber: yup.string().matches(phoneRegExp, 'Phone number is not valid'),
     })
   );
 
   const defaultValues: any = {
-    phone_number: "",
+    phoneNumber: "",
   };
 
   const methods = useForm({ defaultValues, resolver });
@@ -106,7 +106,7 @@ const Login = (props: LoginProps) => {
                   label="Phone Number"
                   type="string"
                   maxLength={10}
-                  name="phone_number"
+                  name="phoneNumber"
                   register={register}
                   errors={errors}
                   control={control}

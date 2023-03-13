@@ -15,7 +15,7 @@ export enum ChatsActionTypes {
 
   // MESSAGE
   ON_SEND_MESSAGE = "@@chats/ON_SEND_MESSAGE",
-  ON_SEND_MESSAGE_BACKEND = "@@chats/ON_SEND_MESSAGE_BACKEND",
+  ON_SEND_MESSAGE_TO_AI = "@@chats/ON_SEND_MESSAGE_TO_AI",
   RECEIVE_MESSAGE = "@@chats/RECEIVE_MESSAGE",
   READ_MESSAGE = "@@chats/READ_MESSAGE",
   RECEIVE_MESSAGE_FROM_USER = "@@chats/RECEIVE_MESSAGE_FROM_USER",
@@ -35,7 +35,9 @@ export interface ChatsState {
   channels: Array<any>;
   selectedChat: string | number | null;
   chatUserDetails: object;
-  chatUserConversations: {};
+  chatUserConversations: {
+    messages: Array<any>
+  };
   isOpenUserDetails: boolean;
   channelDetails: object;
   archiveContacts: Array<any>;

@@ -120,7 +120,7 @@ const fakeBackend = () => {
 
     let finalToken = one.Authorization;
 
-    const validUser = users.filter(usr => usr.uid === user.idx);
+    const validUser = users.filter(usr => usr.id === user.idx);
 
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -130,7 +130,7 @@ const fakeBackend = () => {
             let objIndex;
 
             //Find index of specific object using findIndex method.
-            objIndex = users.findIndex(obj => obj.uid === user.idx);
+            objIndex = users.findIndex(obj => obj.id === user.idx);
 
             //Update object's name property.
             users[objIndex].username = user.username;
@@ -153,7 +153,7 @@ const fakeBackend = () => {
   mock.onPost("/post-fake-profile").reply(config => {
     const user = JSON.parse(config["data"]);
 
-    const validUser = users.filter(usr => usr.uid === user.idx);
+    const validUser = users.filter(usr => usr.id === user.idx);
 
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -161,7 +161,7 @@ const fakeBackend = () => {
           let objIndex;
 
           //Find index of specific object using findIndex method.
-          objIndex = users.findIndex(obj => obj.uid === user.idx);
+          objIndex = users.findIndex(obj => obj.id === user.idx);
 
           //Update object's name property.
           users[objIndex].username = user.username;
@@ -408,9 +408,7 @@ const fakeBackend = () => {
     });
   });
 
-  mock
-    .onGet(new RegExp(`${url.GET_CHAT_USER_CONVERSATIONS}/*`))
-    .reply(config => {
+  mock.onGet(new RegExp(`${url.GET_CHAT_USER_CONVERSATIONS}/*`)).reply(config => {
       const { params } = config;
 
       let data: any;
@@ -438,11 +436,12 @@ const fakeBackend = () => {
 
   mock.onPost(url.SEND_MESSAGE).reply(config => {
     const data = JSON.parse(config["data"]);
-    if (data && data.meta && data.meta.receiver && data.meta.sender) {
+    if (data && data.meta && data.receiver && data.sender) {
       let modifiedC = [...conversations];
       const conversationIdx = (conversations || []).findIndex(
-        (c: any) => c.userId + "" === data.meta.receiver + ""
+        (c: any) => c.userId + "" === data.receiver + ""
       );
+      console.log('conversationIdx:', conversationIdx);
       if (conversationIdx > -1) {
         const mid =
           conversations[conversationIdx].messages &&
@@ -499,7 +498,7 @@ const fakeBackend = () => {
         }
         const newC = {
           conversationId: conversations.length + 1,
-          userId: data.meta.receiver,
+          userId: data.receiver,
           messages: [
             {
               ...newM,
@@ -510,9 +509,8 @@ const fakeBackend = () => {
       }
       onChangeConversations(modifiedC);
     }
-
     return new Promise((resolve, reject) => {
-      if (data && data.meta && data.meta.receiver && data.meta.sender) {
+      if (data && data.meta && data.receiver && data.sender) {
         resolve([200, "Channel Created!"]);
       } else {
         reject([400, "Some thing went wrong!"]);
@@ -540,7 +538,7 @@ const fakeBackend = () => {
           });
         }
         updatedUserC = modifiedC[conversationIdx];
-        onChangeConversations(modifiedC);
+        // onChangeConversations(modifiedC);
       }
     }
 
@@ -609,16 +607,13 @@ const fakeBackend = () => {
           modifiedC[conversationIdx].messages.push({
             ...newM,
             mId: newM.mId + new Date().getTime(),
-            meta: {
-              ...newM.meta,
-              receiver: newM.meta.sender,
-              sender: newM.meta.receiver,
-            },
+            receiver: newM.sender,
+            sender: newM.receiver,
             text: params.bot,
           });
         }
         updatedUserC = modifiedC[conversationIdx];
-        onChangeConversations(modifiedC);
+        // onChangeConversations(modifiedC);
       }
     }
 
@@ -677,7 +672,7 @@ const fakeBackend = () => {
             time: new Date().toISOString(),
             meta: {
               receiver: c,
-              sender: users[0].uid,
+              sender: users[0].id,
               sent: true,
               received: false,
               read: false,
@@ -707,7 +702,7 @@ const fakeBackend = () => {
             time: new Date().toISOString(),
             meta: {
               receiver: "614ecab4ac946a9bdafa4e3b",
-              sender: users[0].uid,
+              sender: users[0].id,
               sent: true,
               received: false,
               read: false,
@@ -909,28 +904,34 @@ const fakeBackend = () => {
       /*
      for chat conversations
      */
-
+      console.log(data);
       const contactIdx = (modifiedD || []).findIndex(
         (c: any) => c.id + "" === data.params.id + ""
       );
+      console.log('contactIdx:', contactIdx);
+
       const contactFIdx = (modifiedF || []).findIndex(
         (c: any) => c.id + "" === data.params.id + ""
       );
+      console.log('contactFIdx:', contactFIdx);
+
       const contactCIdx = (modifiedC || []).findIndex(
         (c: any) => c.id + "" === data.params.id + ""
       );
-      if (contactIdx > -1 && modifiedD[contactIdx]["meta"]) {
-        modifiedD[contactIdx].meta!.unRead = 0;
+      console.log('contactCIdx:', contactCIdx);
+
+      if (contactIdx > -1 && modifiedD[contactIdx]) {
+        modifiedD[contactIdx].unRead = 0;
         onChangeDirectMessages(modifiedD);
       }
-      if (contactFIdx > -1 && modifiedF[contactFIdx]["meta"]) {
+      /*if (contactFIdx > -1 && modifiedF[contactFIdx]["meta"]) {
         modifiedF[contactFIdx].meta!.unRead = 0;
         onChangeFavourite(modifiedF);
       }
       if (contactCIdx > -1 && modifiedC[contactCIdx]["meta"]) {
         modifiedC[contactCIdx].meta!.unRead = 0;
         onChangeChannels(modifiedC);
-      }
+      }*/
     }
 
     return new Promise((resolve, reject) => {

@@ -121,7 +121,9 @@ const Conversation = ({
         id="chat-conversation-list"
       >
         {(messages || []).map((message: MessagesTypes, key: number) => {
-          const isFromMe = message.meta.sender + "" === userProfile.uid + "";
+          console.log('sender: ', message.sender);
+          console.log('userProfile.phoneNumber: ', userProfile.phoneNumber);
+          const isFromMe = message.sender + "" === userProfile.phoneNumber + "";
           return (
             <Message
               message={message}

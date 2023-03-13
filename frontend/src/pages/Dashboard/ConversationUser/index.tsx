@@ -78,7 +78,7 @@ const Index = ({ isChannel }: IndexProps) => {
       attachments: data.attachments && data.attachments,
       meta: {
         receiver: chatUserDetails.id,
-        sender: userProfile.uid,
+        sender: userProfile.id,
       },
     };
     if (replyData && replyData !== null) {

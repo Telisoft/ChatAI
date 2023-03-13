@@ -28,11 +28,11 @@ import AddGroupModal from "../../../components/AddGroupModal";
 import InviteContactModal from "../../../components/InviteContactModal";
 import AddButton from "../../../components/AddButton";
 import ContactModal from "../../../components/ContactModal";
-
-import Favourites from "./Favourites";
 import Archive from "./Archive";
+import DirectMessages from "./DirectMessages";
 import { CHATS_TABS } from "../../../constants";
 import Logo from "../../../assets/images/logo_transparent_white.png";
+import Favourites from "./Favourites";
 
 interface IndexProps {}
 const Index = (props: IndexProps) => {
@@ -49,6 +49,7 @@ const Index = (props: IndexProps) => {
     archiveContacts,
     isContactArchiveToggled,
     chatUserDetails,
+    directMessages,
   } = useAppSelector(state => ({
     isContactInvited: state.Contacts.isContactInvited,
     favourites: state.Chats.favourites,
@@ -146,7 +147,7 @@ const Index = (props: IndexProps) => {
   }, [dispatch, isChannelCreated]);
 
   /*
-  select chat handeling :
+  select chat handling :
     get conversations
     get chat user details
   */
@@ -231,19 +232,19 @@ const Index = (props: IndexProps) => {
           {active === CHATS_TABS.DEFAULT && (
             <>
               {/* favourite */}
-              <Favourites
+              {/*<Favourites
                 users={favourites}
                 selectedChat={selectedChat}
                 onSelectChat={onSelectChat}
-              />
+              />*/}
 
               {/* direct messages */}
-              {/*<DirectMessages
+              <DirectMessages
                 users={directMessages}
                 openAddContact={openAddContactModal}
                 selectedChat={selectedChat}
                 onSelectChat={onSelectChat}
-              />*/}
+              />
 
               {/* channels list */}
               {/*<Chanels

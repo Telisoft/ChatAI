@@ -157,7 +157,7 @@ class FirebaseAuthBackend {
       createdDtm: firebase.firestore.FieldValue.serverTimestamp(),
       lastLoginTime: firebase.firestore.FieldValue.serverTimestamp(),
     };
-    collection.doc(firebase.auth().currentUser.uid).set(details);
+    collection.doc(firebase.auth().currentUser.id).set(details);
     return { user, details };
   };
 
@@ -183,6 +183,7 @@ class FirebaseAuthBackend {
 let _fireBaseBackend = null;
 
 const setLoggeedInUser = user => {
+  console.log('123123131231', user);
   localStorage.setItem("authUser", JSON.stringify(user));
 };
 

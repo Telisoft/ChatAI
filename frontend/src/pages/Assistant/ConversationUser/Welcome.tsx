@@ -14,16 +14,18 @@ const Welcome = () => {
 
   const {
     favourites,
+    directMessages,
   } = useAppSelector(state => ({
     favourites: state.Chats.favourites,
+    directMessages: state.Chats.directMessages,
   }));
 
   const onSelectChat = () => {
-    if (favourites.length > 0) {
-      dispatch(getChatUserDetails(favourites[0].id));
-      dispatch(readConversation(favourites[0].id));
-      dispatch(getChatUserConversations(favourites[0].id));
-      dispatch(changeSelectedChat(favourites[0].id));
+    if (directMessages.length > 0) {
+      dispatch(getChatUserDetails(directMessages[0].id));
+      dispatch(readConversation(directMessages[0].id));
+      dispatch(getChatUserConversations(directMessages[0].id));
+      dispatch(changeSelectedChat(directMessages[0].id));
     }
   }
 

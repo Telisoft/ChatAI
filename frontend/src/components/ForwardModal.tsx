@@ -27,7 +27,7 @@ const ForwardMessage = ({
     ? `${chatUserDetails.firstName} ${chatUserDetails.lastName}`
     : "-";
   const isReplyFromMe =
-    forwardData && forwardData.meta.sender + "" === userProfile.uid + "";
+    forwardData && forwardData.sender + "" === userProfile.id + "";
 
   return (
     <div className="replymessage-block mb-2">

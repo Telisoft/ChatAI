@@ -9,18 +9,18 @@ export interface UserTypes {
   lastName: string;
   profileImage?: any;
   status?: STATUS_TYPES;
-  meta?: {
+  // meta?: {
     unRead?: number;
-    status?: STATUS_TYPES;
-  };
+    // status?: STATUS_TYPES;
+  // };
 }
 let favourites: Array<UserTypes> = [
   {
     ...contacts[4],
-    meta: {
+    // meta: {
       unRead: 0,
       status: STATUS_TYPES.ACTIVE,
-    },
+    // },
   },
 ];
 
@@ -33,9 +33,9 @@ let directMessages: Array<UserTypes> = [
   },
   {
     ...contacts[8],
-    meta: {
+    // meta: {
       unRead: 5,
-    },
+    // },
   },
   {
     ...contacts[18],

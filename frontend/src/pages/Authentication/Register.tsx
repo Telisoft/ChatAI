@@ -38,7 +38,7 @@ const Register = (props: RegisterProps) => {
         .string()
         .email("This value should be a valid email.")
         .required("Please Enter E-mail."),
-      username: yup.string().required("Please Enter E-mail."),
+      name: yup.string().required("Please Enter E-mail."),
       phone_number: yup.string().matches(phoneRegExp, 'Phone number is not valid'),
     })
   );
@@ -91,7 +91,7 @@ const Register = (props: RegisterProps) => {
                   label="Phone Number"
                   type="string"
                   maxLength={10}
-                  name="phone_number"
+                  name="phoneNumber"
                   register={register}
                   errors={errors}
                   control={control}
@@ -118,7 +118,7 @@ const Register = (props: RegisterProps) => {
                 <FormInput
                   label="Username"
                   type="text"
-                  name="username"
+                  name="name"
                   register={register}
                   errors={errors}
                   control={control}
