@@ -4,41 +4,20 @@ import { AuthLoginActionTypes } from "./types";
 import { authLoginApiResponseError, authLoginApiResponseSuccess } from "./actions";
 //Include Both Helper File with needed methods
 import { getFirebaseBackend, setLoggeedInUser } from "../../../helpers/firebase_helper";
-import { postFakeLogin, postJwtLogin, postSocialLogin } from "../../../api/index";
+import { postJwtLogin, postSocialLogin } from "../../../api/index";
 
 const fireBaseBackend = getFirebaseBackend();
 
 function* loginUser({ payload: { user } }: any) {
   try {
-    if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
-      const response: Promise<any> = yield call(
-        fireBaseBackend.loginUser,
-        user.email,
-        user.password
-      );
-      // myData
-      yield put(
-        authLoginApiResponseSuccess(AuthLoginActionTypes.LOGIN_USER, response)
-      );
-    } else if (process.env.REACT_APP_DEFAULTAUTH === "jwt") {
-      const response: Promise<any> = yield call(postJwtLogin, {
-        email: user.email,
-        password: user.password,
-      });
-      setLoggeedInUser(response);
-      yield put(
-        authLoginApiResponseSuccess(AuthLoginActionTypes.LOGIN_USER, response)
-      );
-    } else if (process.env.REACT_APP_DEFAULTAUTH === "fake") {
-      const response: Promise<any> = yield call(postFakeLogin, {
-        email: user.email,
-        password: user.password,
-      });
-      setLoggeedInUser(response);
-      yield put(
-        authLoginApiResponseSuccess(AuthLoginActionTypes.LOGIN_USER, response)
-      );
-    }
+    const response: Promise<any> = yield call(postJwtLogin, {
+      phoneNumber: user.phoneNumber
+    });
+    setLoggeedInUser(response);
+    console.log(response);
+    yield put(
+      authLoginApiResponseSuccess(AuthLoginActionTypes.LOGIN_USER, response)
+    );
   } catch (error: any) {
     yield put(
       authLoginApiResponseError(AuthLoginActionTypes.LOGIN_USER, error)

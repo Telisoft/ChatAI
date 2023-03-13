@@ -4,7 +4,7 @@ import { Alert, Button, Col, Form, Label, Row, UncontrolledTooltip } from "react
 import { GoogleLogin } from "react-google-login";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 // router
-import { Redirect, useHistory, useLocation } from "react-router-dom";
+import { Link, Redirect, useHistory, useLocation } from "react-router-dom";
 // validations
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -38,8 +38,6 @@ const Login = (props: LoginProps) => {
     })
   );
 
-  const [phoneNumber, setPhoneNumber] = useState('');
-
   const history: any = useHistory();
   const location = useLocation<LocationTypes>();
   const [redirectUrl, setRedirectUrl] = useState("/");
@@ -56,16 +54,16 @@ const Login = (props: LoginProps) => {
     }
   }, [isUserLogin, history, loginLoading, isUserLogout, redirectUrl]);
 
+  const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+
   const resolver = yupResolver(
     yup.object().shape({
-      email: yup.string().required("Please Enter E-mail."),
-      password: yup.string().required("Please Enter Password."),
+      phoneNumber: yup.string().matches(phoneRegExp, 'Phone number is not valid'),
     })
   );
 
   const defaultValues: any = {
-    email: "admin@themesbrand.com",
-    password: "123456",
+    phoneNumber: "",
   };
 
   const methods = useForm({ defaultValues, resolver });
@@ -86,41 +84,6 @@ const Login = (props: LoginProps) => {
     return <Redirect to={{ pathname: redirectUrl }} />;
   }
 
-  const signIn = (res: any, type: "google" | "facebook") => {
-    if (type === "google" && res) {
-      const postData = {
-        name: res.profileObj.name,
-        email: res.profileObj.email,
-        token: res.tokenObj.access_token,
-        idToken: res.tokenId,
-      };
-      dispatch(socialLogin(postData, type));
-    } else if (type === "facebook" && res) {
-      const postData = {
-        name: res.name,
-        token: res.accessToken,
-      };
-      dispatch(socialLogin(postData, type));
-    }
-  };
-
-  //handleFacebookLoginResponse
-  const facebookResponse = (response: object) => {
-    signIn(response, "facebook");
-  };
-
-  //handleGoogleLoginResponse
-  const googleResponse = (response: object) => {
-    signIn(response, "google");
-  };
-
-  const handlePhoneNumberChange = (event: any) => {
-    const limit = 10;
-
-    // 👇️ only take first N characters
-    setPhoneNumber(event.target.value.slice(0, limit));
-  };
-
   return (
     <NonAuthLayoutWrapper>
       <Row className=" justify-content-center my-auto">
@@ -128,7 +91,7 @@ const Login = (props: LoginProps) => {
           <div className="py-md-5 py-4">
             <AuthHeader
               title="Welcome Back !"
-              subtitle="Sign in to continue to TELICO."
+              subtitle="Log In to continue to TELICO."
             />
 
             {error && <Alert color="danger">{error}</Alert>}
@@ -141,18 +104,15 @@ const Login = (props: LoginProps) => {
               <div className="mb-3">
                 <FormInput
                   label="Phone Number"
-                  type="number"
-                  name="phone_number"
+                  type="string"
                   maxLength={10}
-                  max={9999999999}
+                  name="phoneNumber"
                   register={register}
                   errors={errors}
                   control={control}
-                  value={phoneNumber}
                   labelClassName="form-label"
                   placeholder="Enter phone number"
                   className="form-control"
-                  onChange={handlePhoneNumberChange}
                 />
               </div>
 
@@ -170,96 +130,14 @@ const Login = (props: LoginProps) => {
                 />
               </div>*/}
 
-              <div className="form-check form-check-info font-size-16">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  id="remember-check"
-                />
-                <Label
-                  className="form-check-label font-size-14"
-                  htmlFor="remember-check"
-                >
-                  Remember me
-                </Label>
-              </div>
-
               <div className="text-center mt-4">
                 <Button color="primary" className="w-100" type="submit">
                   Log In
                 </Button>
               </div>
-
-              <div className="mt-4 text-center">
-                <div className="signin-other-title">
-                  <h5 className="font-size-14 mb-4 title">Sign in with</h5>
-                </div>
-                <Row className="">
-                  <div className="col-4">
-                    <div>
-                      <FacebookLogin
-                        appId={config.FACEBOOK.APP_ID}
-                        autoLoad={false}
-                        callback={facebookResponse}
-                        render={(renderProps: any) => (
-                          <button
-                            type="button"
-                            className="btn btn-light w-100"
-                            id="facebook"
-                            onClick={renderProps.onClick}
-                          >
-                            <i className="mdi mdi-facebook text-indigo"></i>
-                          </button>
-                        )}
-                      />
-                    </div>
-                    <UncontrolledTooltip placement="top" target="facebook">
-                      Facebook
-                    </UncontrolledTooltip>
-                  </div>
-                  <div className="col-4">
-                    <div>
-                      <button
-                        type="button"
-                        className="btn btn-light w-100"
-                        id="twitter"
-                      >
-                        <i className="mdi mdi-twitter text-info"></i>
-                      </button>
-                    </div>
-                    <UncontrolledTooltip placement="top" target="twitter">
-                      Twitter
-                    </UncontrolledTooltip>
-                  </div>
-                  <div className="col-4">
-                    <div>
-                      <GoogleLogin
-                        clientId={
-                          config.GOOGLE.CLIENT_ID ? config.GOOGLE.CLIENT_ID : ""
-                        }
-                        render={renderProps => (
-                          <button
-                            type="button"
-                            className="btn btn-light w-100"
-                            id="google"
-                            onClick={renderProps.onClick}
-                          >
-                            <i className="mdi mdi-google text-danger"></i>
-                          </button>
-                        )}
-                        onSuccess={googleResponse}
-                        onFailure={() => {}}
-                      />
-                    </div>
-                    <UncontrolledTooltip placement="top" target="google">
-                      Google
-                    </UncontrolledTooltip>
-                  </div>
-                </Row>
-              </div>
             </Form>
 
-            {/*<div className="mt-5 text-center text-muted">
+            <div className="mt-5 text-center text-muted">
               <p>
                 Don't have an account ?{" "}
                 <Link
@@ -270,7 +148,7 @@ const Login = (props: LoginProps) => {
                   Register
                 </Link>
               </p>
-            </div>*/}
+            </div>
           </div>
         </Col>
       </Row>

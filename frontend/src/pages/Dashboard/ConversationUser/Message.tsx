@@ -284,20 +284,20 @@ const Message = ({
     ? userProfile.profileImage
     : imagePlaceholder;
   const channeluserProfile =
-    message.meta.userData && message.meta.userData.profileImage
-      ? message.meta.userData.profileImage
+    message.userData && message.userData.profileImage
+      ? message.userData.profileImage
       : imagePlaceholder;
   const chatUserprofile = chatUserDetails.profileImage
     ? chatUserDetails.profileImage
     : imagePlaceholder;
   const profile = isChannel ? channeluserProfile : chatUserprofile;
   const date = formateDate(message.time, "hh:mmaaa");
-  const isSent = message.meta.sent;
-  const isReceived = message.meta.received;
-  const isRead = message.meta.read;
-  const isForwarded = message.meta.isForwarded;
-  const channdelSenderFullname = message.meta.userData
-    ? `${message.meta.userData.firstName} ${message.meta.userData.lastName}`
+  const isSent = message.sent;
+  const isReceived = message.received;
+  const isRead = message.read;
+  const isForwarded = message.isForwarded;
+  const channdelSenderFullname = message.userData
+    ? `${message.userData.firstName} ${message.userData.lastName}`
     : "-";
   const fullName = isChannel ? channdelSenderFullname : chatUserFullName;
   const onDeleteMessage = () => {

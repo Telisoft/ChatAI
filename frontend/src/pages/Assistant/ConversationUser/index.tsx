@@ -7,7 +7,7 @@ import {
   deleteUserMessages,
   getChatUserConversations,
   onSendMessage,
-  onSendMessageBackend,
+  onSendMessageToAI,
   readMessage,
   receiveMessage,
   receiveMessageFromUser,
@@ -78,26 +78,30 @@ const Index = ({ isChannel }: IndexProps) => {
       time: new Date().toISOString(),
       image: data.image && data.image,
       attachments: data.attachments && data.attachments,
-      meta: {
-        receiver: chatUserDetails.id,
-        sender: userProfile.uid,
-      },
+      receiver: chatUserDetails.phoneNumber,
+      sender: userProfile.phoneNumber,
     };
+
+    console.log(params);
+
     if (replyData && replyData !== null) {
       params["replyOf"] = replyData;
     }
 
-    dispatch(onSendMessage(params));
-    dispatch(onSendMessageBackend(params));
-    if (!isChannel) {
-      setTimeout(() => {
-        dispatch(receiveMessage(chatUserDetails.id));
-      }, 1000);
-      setTimeout(() => {
-        dispatch(readMessage(chatUserDetails.id));
-      }, 1500);
-    }
-    setReplyData(null);
+    // if (chatUserDetails.lastName === "Assistant") {
+      dispatch(onSendMessageToAI(params));
+    /*} else {
+      dispatch(onSendMessage(params));
+      if (!isChannel) {
+        setTimeout(() => {
+          dispatch(receiveMessage(chatUserDetails.id));
+        }, 1000);
+        setTimeout(() => {
+          dispatch(readMessage(chatUserDetails.id));
+        }, 1500);
+      }
+      setReplyData(null);
+    }*/
   };
 
   useEffect(() => {

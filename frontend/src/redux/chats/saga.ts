@@ -123,7 +123,9 @@ function* getChatUserConversations({ payload: id }: any) {
 
 function* onSendMessage({ payload: data }: any) {
   try {
+    console.log('data:', data);
     const response: Promise<any> = yield call(sendMessage, data);
+    console.log('response:', response);
     yield put(
       chatsApiResponseSuccess(ChatsActionTypes.ON_SEND_MESSAGE, response)
     );
@@ -135,14 +137,16 @@ function* onSendMessage({ payload: data }: any) {
 
 function* onSendMessageBackend({ payload: data }: any) {
   try {
-    const response: string = yield call(sendMessageBackend, { prompt: data.text });
+    const response: string = yield call(sendMessageBackend, { data });
+    console.log('response', response);
+
     yield put(
-      chatsApiResponseSuccess(ChatsActionTypes.ON_SEND_MESSAGE, response)
+      chatsApiResponseSuccess(ChatsActionTypes.ON_SEND_MESSAGE_TO_AI, response)
     );
-    yield put({type: ChatsActionTypes.RECEIVE_MESSAGE_FROM_USER, payload: {id: data.meta.receiver, text: response}});
   } catch (error: any) {
-    console.log('error:', error);
-    yield put(chatsApiResponseError(ChatsActionTypes.ON_SEND_MESSAGE, error));
+    yield put(
+      chatsApiResponseSuccess(ChatsActionTypes.ON_SEND_MESSAGE_TO_AI, error)
+    );
   }
 }
 
@@ -342,7 +346,7 @@ export function* watchOnSendMessage() {
 }
 
 export function* watchOnSendMessageBackend() {
-  yield takeEvery(ChatsActionTypes.ON_SEND_MESSAGE_BACKEND, onSendMessageBackend);
+  yield takeEvery(ChatsActionTypes.ON_SEND_MESSAGE_TO_AI, onSendMessageBackend);
 }
 
 export function* watchReceiveMessage() {

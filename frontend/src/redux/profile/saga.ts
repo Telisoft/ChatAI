@@ -8,6 +8,7 @@ import { getProfileDetails as getProfileDetailsApi } from "../../api/index";
 function* getProfileDetails() {
   try {
     const response: Promise<any> = yield call(getProfileDetailsApi);
+
     yield put(
       profileApiResponseSuccess(
         ProfileActionTypes.GET_PROFILE_DETAILS,

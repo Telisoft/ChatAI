@@ -1,4 +1,6 @@
 import { ContactTypes } from "./contacts";
+import img1 from "../assets/images/small/img-1.jpg";
+import img2 from "../assets/images/small/img-2.jpg";
 import { myData } from "./myProfile";
 
 export interface AttachmentTypes {
@@ -16,15 +18,13 @@ export interface MessagesTypes {
   mId: number;
   text?: string;
   time: string;
-  meta: {
-    receiver: string | number;
-    sender: string | number;
-    userData?: ContactTypes;
-    sent: boolean;
-    received: boolean;
-    read: boolean;
-    isForwarded?: boolean;
-  };
+  receiver: string | number;
+  sender: string | number;
+  userData?: ContactTypes;
+  sent: boolean;
+  received: boolean;
+  read: boolean;
+  isForwarded?: boolean;
   attachments?: AttachmentTypes[];
   image?: ImageTypes[];
   replyOf?: MessagesTypes;
@@ -37,7 +37,7 @@ export interface ConversationTypes {
   messages: MessagesTypes[];
 }
 
-export const myId = myData.uid;
+export const myId = myData.id;
 let conversations: ConversationTypes[] = [
   {
     conversationId: 1,

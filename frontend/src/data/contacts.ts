@@ -21,6 +21,7 @@ export interface ContactTypes {
   id: string | number;
   firstName: string;
   lastName: string;
+  phoneNumber?: string;
   profileImage?: any;
   about?: string;
   email: string;

@@ -116,7 +116,7 @@ let user: any = localStorage.getItem("authUser");
 user = JSON.parse(user);
 
 const myData = {
-  uid: user && user.uid ? user.uid : 1,
+  id: user && user.id ? user.id : 1,
   username: "admin",
   role: "admin",
   password: "123456",
