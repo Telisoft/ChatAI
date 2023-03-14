@@ -35,3 +35,8 @@ export const getConversation = async (data) => {
 
     return conversation.toObject();
 }
+
+export const getConversationById = async (id) => {
+    const conversation = await Conversation.collection.where('receiver', '==', id).get();
+    return conversation.toObject();
+}

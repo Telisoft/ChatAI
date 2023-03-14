@@ -15,7 +15,7 @@ const PORT = process.env.PORT;
 
 try {
     app.listen({ port: PORT, host: '127.0.0.1' }, () => {
-        console.log('Server started, listening: http://127.0.0.1:5000/ ')
+        console.log('Server started, listening: http://127.0.0.1:5000/')
         initData();
     })
 } catch (err) { console.log(err) }

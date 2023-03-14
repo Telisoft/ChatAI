@@ -33,4 +33,13 @@ export const saveMessage = async (data) => {
     return message;
 }
 
+export const getMessages = async (conversationId) => {
+    const messages = await Message.collection
+        .where('conversationId',  '==', conversationId)
+        .orderBy('time')
+        .limitToLast(4)
+        .fetch();
+    return messages.list;
+}
+
 
