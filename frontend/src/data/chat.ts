@@ -7,6 +7,7 @@ export interface UserTypes {
   id: string | number;
   firstName: string;
   lastName: string;
+  phoneNumber: string;
   profileImage?: any;
   status?: STATUS_TYPES;
   // meta?: {
