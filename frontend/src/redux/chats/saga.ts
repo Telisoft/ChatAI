@@ -29,7 +29,7 @@ import {
   receiveMessage as receiveMessageApi,
   receiveMessageFromUser as receiveMessageFromUserApi,
   sendMessage,
-  sendMessageBackend,
+  sendMessageBackend, sendSMS,
   toggleArchiveContact as toggleArchiveContactApi,
   toggleFavouriteContact as toggleFavouriteContactApi
 } from "../../api/index";
@@ -125,13 +125,28 @@ function* onSendMessage({ payload: data }: any) {
   try {
     console.log('data:', data);
     const response: Promise<any> = yield call(sendMessage, data);
-    console.log('response:', response);
+    console.log('response:', response)
     yield put(
       chatsApiResponseSuccess(ChatsActionTypes.ON_SEND_MESSAGE, response)
     );
   } catch (error: any) {
     console.log('error:', error);
     yield put(chatsApiResponseError(ChatsActionTypes.ON_SEND_MESSAGE, error));
+  }
+}
+
+function* onSendSMS({ payload: data }: any) {
+  try {
+    const response: string = yield call(sendSMS, { data });
+    console.log('response', response);
+
+    yield put(
+      chatsApiResponseSuccess(ChatsActionTypes.ON_SEND_SMS, response)
+    );
+  } catch (error: any) {
+    yield put(
+      chatsApiResponseSuccess(ChatsActionTypes.ON_SEND_SMS, error)
+    );
   }
 }
 
@@ -349,6 +364,10 @@ export function* watchOnSendMessageBackend() {
   yield takeEvery(ChatsActionTypes.ON_SEND_MESSAGE_TO_AI, onSendMessageBackend);
 }
 
+export function* watchOnSendSMS() {
+  yield takeEvery(ChatsActionTypes.ON_SEND_SMS, onSendSMS);
+}
+
 export function* watchReceiveMessage() {
   yield takeEvery(ChatsActionTypes.RECEIVE_MESSAGE, receiveMessage);
 }
@@ -405,6 +424,7 @@ function* chatsSaga() {
     fork(watchGetChatUserDetails),
     fork(watchGetChatUserConversations),
     fork(watchOnSendMessage),
+    fork(watchOnSendSMS),
     fork(watchOnSendMessageBackend),
     fork(watchReceiveMessage),
     fork(watchReadMessage),

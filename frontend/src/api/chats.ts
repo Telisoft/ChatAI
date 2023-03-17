@@ -36,6 +36,10 @@ const sendMessage = (data: object) => {
   return api.create(url.SEND_MESSAGE, data);
 };
 
+const sendSMS = (data: object) => {
+  return api.create(url.SEND_SMS, data);
+};
+
 const sendMessageBackend = (data: object) => {
   return api.create(url.SEND_MESSAGE_BACKEND, data);
 };
@@ -115,6 +119,7 @@ export {
   getChatUserConversations,
   sendMessage,
   sendMessageBackend,
+  sendSMS,
   receiveMessage,
   readMessage,
   receiveMessageFromUser,

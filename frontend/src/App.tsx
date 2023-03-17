@@ -9,6 +9,7 @@ import Routes from "./routes";
 //api config
 import config from "./config";
 import fakeBackend from "./helpers/fakeBackend";
+import socketIOClient from "socket.io-client";
 
 // Import Firebase Configuration file
 // import { initFirebaseBackend } from "./helpers/firebase_helper";
@@ -47,6 +48,15 @@ const App = () => {
       dispatch(changelayoutMode(layoutMode));
     }
   }, [layoutMode, dispatch]);
+
+  /*useEffect(() => {
+    const socket = socketIOClient(`${process.env.REACT_APP_SOCKET_URL}`);
+    socket.on('5144772222', (res) => {
+      console.log(res);
+      // CLEAN UP THE EFFECT
+    });
+    socket.disconnect();
+  }, []);*/
 
   return <Routes />;
 };

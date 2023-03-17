@@ -3,7 +3,8 @@ import { StatusCodes} from "http-status-codes";
 import * as UserService from '../models/user.js';
 import { contacts, userChannels, conversations } from "../data/contacts.js";
 import { getDirectMessages, getUser } from "../models/contact.js";
-// import {getConversation} from "../models/conversation.js";
+import { getConversationById } from "../models/conversation.js";
+import { getMessages } from "../models/message.js";
 
 const router = Router();
 
@@ -191,24 +192,26 @@ router.get('/get-user-details/:id', async  (req, res, next) => {
 });
 
 router.put('/read-conversation/:id', async  (req, res, next) => {
-    console.log('conversation_id', req.params.id);
     res.status(StatusCodes.OK).send([]);
 });
 
 router.get('/get-user-conversations/:id', async  (req, res, next) => {
     /*const data = { receiver: req.params.id };
     const data = { receiver: req.params.id };*/
-    // const conversation = await getConversation(req.params.id);
-    let data;
-    if (req.params.id && conversations.length !== 0) {
-        const chat = (conversations || []).find(
-            (c) => c.userId + "" === req.params.id + ""
-        );
-        if (chat) {
-            data = chat;
-        }
+
+    const conversation = await getConversationById(req.params.id);
+
+    if (conversation === false) {
+        return res.status(StatusCodes.OK).send({ messages: []});
     }
-    res.status(StatusCodes.OK).send(data);
+
+    const messages = await getMessages(conversation.id);
+    for (let i = 0; i < messages.length; i ++) {
+        messages[i].time = messages[i].time.toDate();
+    }
+    conversation['messages'] = messages;
+
+    res.status(StatusCodes.OK).send(conversation);
 });
 
 export default router;

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 // hooks
 import { useRedux } from "../../../hooks/index";
+import socketIOClient from 'socket.io-client';
 // hooks
 import { useProfile } from "../../../hooks";
 // components
@@ -11,7 +12,7 @@ import Message from "./Message";
 import { MessagesTypes } from "../../../data/messages";
 import ForwardModal from "../../../components/ForwardModal";
 // actions
-import { deleteImage, forwardMessage } from "../../../redux/actions";
+import { deleteImage, forwardMessage, acceptMessage } from "../../../redux/actions";
 
 // import Day from "./Day";
 interface ConversationProps {
@@ -72,6 +73,17 @@ const Conversation = ({
     }
   }, [chatUserConversations.messages, scrollElement]);
 
+  useEffect(() => {
+    const socket = socketIOClient(`${process.env.REACT_APP_SOCKET_URL}`, {
+      transports: ["websocket"]
+    });
+    socket.on('5144772222', (message) => {
+      console.log(message);
+      dispatch(acceptMessage(message));
+    });
+
+  }, []);
+
   /*
   forward message
   */
@@ -121,8 +133,6 @@ const Conversation = ({
         id="chat-conversation-list"
       >
         {(messages || []).map((message: MessagesTypes, key: number) => {
-          console.log('sender: ', message.sender);
-          console.log('userProfile.phoneNumber: ', userProfile.phoneNumber);
           const isFromMe = message.sender + "" === userProfile.phoneNumber + "";
           return (
             <Message

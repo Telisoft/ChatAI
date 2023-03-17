@@ -1,4 +1,5 @@
 import {Field, Model} from "fireo";
+import {getUser} from "./contact.js";
 
 class Conversation extends Model {
     id = Field.ID();
@@ -30,8 +31,21 @@ export const getConversation = async (data) => {
     const conversation = Conversation.init();
     conversation.sender = sender;
     conversation.receiver = receiver;
-    conversation.createdAt = new Date().toISOString();
+    conversation.createdAt = new Date();
     await conversation.save();
 
+    return conversation.toObject();
+}
+/**
+ *
+ * @param id: id of users Table
+ * @returns {Promise<boolean|*|Map<unknown, unknown>|Map<K, V>|((target: any, filter: (value: any) => boolean, instructions: Record<string, ValueSupplier | Value>) => typeof target)|((instructions: Record<string, ObjectMappingInstruction>) => any)|((target: any, instructions: Record<string, ObjectMappingInstruction>) => typeof target)|any extends {_id?: infer U} ? IfAny<U, any, any> : any|Binary>}
+ */
+export const getConversationById = async (id) => {
+    const contact = await getUser(id);
+    const conversation = await Conversation.collection.where('receiver', '==', contact.phoneNumber).get();
+    if (conversation === undefined) {
+        return false;
+    }
     return conversation.toObject();
 }

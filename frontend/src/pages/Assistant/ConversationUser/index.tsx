@@ -7,12 +7,12 @@ import {
   deleteUserMessages,
   getChatUserConversations,
   onSendMessage,
-  onSendMessageToAI,
+  onSendMessageToAI, onSendSMS,
   readMessage,
   receiveMessage,
   receiveMessageFromUser,
   toggleArchiveContact,
-  toggleUserDetailsTab,
+  toggleUserDetailsTab
 } from "../../../redux/actions";
 // hooks
 import { useProfile } from "../../../hooks";
@@ -88,10 +88,11 @@ const Index = ({ isChannel }: IndexProps) => {
       params["replyOf"] = replyData;
     }
 
-    // if (chatUserDetails.lastName === "Assistant") {
+    if (chatUserDetails.lastName === "Assistant") {
       dispatch(onSendMessageToAI(params));
-    /*} else {
-      dispatch(onSendMessage(params));
+    } else {
+      dispatch(onSendSMS(params));
+      /*dispatch(onSendMessage(params));
       if (!isChannel) {
         setTimeout(() => {
           dispatch(receiveMessage(chatUserDetails.id));
@@ -100,8 +101,8 @@ const Index = ({ isChannel }: IndexProps) => {
           dispatch(readMessage(chatUserDetails.id));
         }, 1500);
       }
-      setReplyData(null);
-    }*/
+      setReplyData(null);*/
+    }
   };
 
   useEffect(() => {
@@ -112,7 +113,7 @@ const Index = ({ isChannel }: IndexProps) => {
       isUserMessagesDeleted ||
       isImageDeleted
     ) {
-      dispatch(getChatUserConversations(chatUserDetails.id));
+      dispatch(getChatUserConversations(chatUserDetails.phoneNumber));
     }
   }, [
     dispatch,
