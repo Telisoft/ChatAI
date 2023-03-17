@@ -36,6 +36,7 @@ export const getConversation = async (data) => {
 
     return conversation.toObject();
 }
+
 /**
  *
  * @param id: id of users Table
@@ -47,5 +48,6 @@ export const getConversationById = async (id) => {
     if (conversation === undefined) {
         return false;
     }
+
     return conversation.toObject();
 }
