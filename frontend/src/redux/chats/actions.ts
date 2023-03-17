@@ -70,8 +70,18 @@ export const onSendMessageToAI = (data: any) => ({
   payload: data,
 });
 
+export const onSendSMS = (data: any) => ({
+  type: ChatsActionTypes.ON_SEND_SMS,
+  payload: data,
+});
+
 export const receiveMessage = (id: number | string) => ({
   type: ChatsActionTypes.RECEIVE_MESSAGE,
+  payload: id,
+});
+
+export const acceptMessage = (id: number | string) => ({
+  type: ChatsActionTypes.ACCEPT_MESSAGE,
   payload: id,
 });
 

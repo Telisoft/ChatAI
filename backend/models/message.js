@@ -25,8 +25,29 @@ export const saveMessage = async (data) => {
     const message = Message.init();
     message.sender = data.sender;
     message.receiver = data.receiver;
+    message.sent = true;
+    message.received = true;
+    message.read = true;
     message.time = new Date(data.time);
     message.text = data.text;
+    message.conversationId = conversation.id;
+    await message.save();
+
+    return message;
+}
+
+export const saveSMS = async (data) => {
+    const msg = { receiver: data.to, sender: data.from };
+    const conversation = await getConversation(msg);
+
+    const message = Message.init();
+    message.sender = data.from;
+    message.receiver = data.to;
+    message.sent = true;
+    message.received = true;
+    message.read = true;
+    message.time = new Date(data.time);
+    message.text = data.msg;
     message.conversationId = conversation.id;
     await message.save();
 

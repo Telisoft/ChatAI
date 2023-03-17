@@ -28,6 +28,7 @@ export const initData = async () => {
             isFavourite: true,
             firstName: "AI ",
             lastName: "Assistant",
+
             phoneNumber: "1111111111",
             profileImage: "../assets/images/users/robot.png",
             about: "If several languages coalesce, the grammar of the resulting.",

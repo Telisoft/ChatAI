@@ -1,6 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
+import axios from "axios";
 import count from 'openai-gpt-token-counter';
-import { Firestore } from "@google-cloud/firestore";
+import urlencode from 'urlencode';
 import * as dotenv from 'dotenv';
 
 import { Configuration, OpenAIApi } from 'openai';
@@ -110,6 +111,7 @@ export const getChatCompletion = async (input) => {
 
     try {
         const response = await API.createChatCompletion({
+            // model: "gpt-4-32k",
             model: "gpt-3.5-turbo",
             messages: messages,
             max_tokens: 2048,
@@ -131,6 +133,17 @@ export const getChatCompletion = async (input) => {
     } catch (err) {
         console.log(err);
         return "Something went wrong";
+    }
+}
+
+export const sendSMS = async (data) => {
+    try {
+        let { sender, receiver, text } = data;
+        text = urlencode(text);
+        const response = await axios.get(`https://smsc.isptelecom.net/api.php?token=${process.env.ISP_TOKEN}&cmd=sendsms&src=${sender}&dst=${receiver}&concat=0&msg=${text}`);
+        return response.data;
+    } catch (err) {
+        return "Invalid request";
     }
 }
 

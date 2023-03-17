@@ -140,6 +140,7 @@ const Chats = (state = INIT_STATE, action: any) => {
           return {
             ...state,
             chatUserConversations: {
+              ...state.chatUserConversations,
               messages: [
                 ...state.chatUserConversations.messages,
                 action.payload.data
@@ -191,7 +192,10 @@ const Chats = (state = INIT_STATE, action: any) => {
         case ChatsActionTypes.GET_CHAT_USER_CONVERSATIONS:
           return {
             ...state,
-            chatUserConversations: {},
+            chatUserConversations: {
+              ...state.chatUserConversations,
+              messages: [],
+            },
             isUserConversationsFetched: false,
             getUserConversationsLoading: false,
             isUserMessageSent: false,
@@ -240,7 +244,7 @@ const Chats = (state = INIT_STATE, action: any) => {
         case ChatsActionTypes.READ_CONVERSATION:
           return {
             ...state,
-            isRead: false,
+            isRead: true,
           };
         case ChatsActionTypes.DELETE_IMAGE:
           return {
@@ -310,6 +314,7 @@ const Chats = (state = INIT_STATE, action: any) => {
         ...state,
         isUserMessageSent: false,
       };
+    case ChatsActionTypes.ON_SEND_SMS:
     case ChatsActionTypes.ON_SEND_MESSAGE_TO_AI:
       const data = action.payload;
       const message: any = {
@@ -318,7 +323,7 @@ const Chats = (state = INIT_STATE, action: any) => {
         time: data.time,
         sent: true,
         received: true,
-        read: false,
+        read: true,
       };
       if (data.image && data.image.length) {
         message["image"] = data.image;
@@ -337,6 +342,17 @@ const Chats = (state = INIT_STATE, action: any) => {
           messages: [
             ...state.chatUserConversations.messages,
             message
+          ]
+        }
+      };
+    case ChatsActionTypes.ACCEPT_MESSAGE:
+      return {
+        ...state,
+        chatUserConversations: {
+          ...state.chatUserConversations,
+          messages: [
+            ...state.chatUserConversations.messages,
+            action.payload
           ]
         }
       };

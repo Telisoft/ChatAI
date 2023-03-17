@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import { getTextCompletion, getChatCompletion  } from '../services/API.js';
-import {saveMessage} from "../models/message.js";
+import { getTextCompletion, getChatCompletion, sendSMS } from '../services/API.js';
+import { saveMessage, saveSMS } from "../models/message.js";
+import * as io from "socket.io";
 
 const router = Router();
 
@@ -40,6 +41,32 @@ router.post('/chat', async (req, res, next) => {
         await saveMessage(response);
 
         res.status(200).send(response)
+    } catch (error) {
+        // console.log(error);
+        res.status(500).send({ error })
+    }
+});
+
+router.post('/send-sms', async (req, res, next) => {
+    try {
+        await saveMessage(req.body.data);
+
+        const result = await sendSMS(req.body.data);
+
+        res.status(200).send(result.data)
+    } catch (error) {
+        // console.log(error);
+        res.status(500).send({ error })
+    }
+});
+
+router.get('/receive-sms', async (req, res, next) => {
+    try {
+        const message = await saveSMS(req.body.data);
+        const io = req.app.get('socketio');
+
+        io.emit('5144772222', message);
+        res.status(200).send()
     } catch (error) {
         // console.log(error);
         res.status(500).send({ error })
