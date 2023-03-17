@@ -67,7 +67,7 @@ export const getDirectMessages = async () => {
 
 export const getUser = async (id) => {
     try {
-        const contact = await Contact.collection.get({id: id});
+        const contact = await Contact.collection.where('phoneNumber', '==', id).get();
         return contact;
     } catch (error) {
         console.log(error);

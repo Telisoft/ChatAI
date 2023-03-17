@@ -1522,10 +1522,10 @@ export const userChannels = [
 export const conversations = [
     {
         conversationId: 1,
-        userId: "614ecab4ac946a9bdafa4e3b",
+        userId: "UJf5eylaVqJFGgUt7cvm",
         typingUser: "614ecab4ac946a9bdafa4e3b",
         messages: [
-            /*{
+            {
                 mId: 1,
                 text: "Hi.",
                 time: new Date().toISOString(),
@@ -1624,16 +1624,16 @@ export const conversations = [
                         desc: "12.5 MB",
                     },
                 ],
-            },*/
+            },
         ],
     },
     {
         conversationId: 2,
-        userId: "61665bcb9a456823e282afa7",
+        userId: "UJf5eylaVqJFGgUt7cvm",
         typingUser: contacts[3].id,
         isGroupConversation: true,
         messages: [
-            /*{
+            {
                 mId: 1,
                 text: "Good morning Everyone",
                 time: new Date().toISOString(),
@@ -1710,7 +1710,7 @@ export const conversations = [
                     received: true,
                     read: true,
                 // },
-            },*/
+            },
         ],
     },
 ];

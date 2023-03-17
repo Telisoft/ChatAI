@@ -32,7 +32,3 @@ httpServer.listen(app.get('port'), function () {
     initData();
 });
 
-/*try {
-    app.set('port', process.env.PORT || 5000);
-
-} catch (err) { console.log(err) }*/
