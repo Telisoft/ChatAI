@@ -6,6 +6,7 @@ import { contactsApiResponseError, contactsApiResponseSuccess } from "./actions"
 import { getContacts as getContactsApi, inviteContact as inviteContactApi } from "../../api/index";
 // helpers
 import { showErrorNotification, showSuccessNotification } from "../../helpers/notifications";
+import { ChatsActionTypes } from "../chats/types";
 
 function* getContacts({ payload: filters }: any) {
   try {
@@ -26,6 +27,10 @@ function* inviteContact({ payload: newPassword }: any) {
     yield put(
       contactsApiResponseSuccess(ContactsActionTypes.INVITE_CONTACT, response)
     );
+
+    yield put({type: ChatsActionTypes.GET_DIRECT_MESSAGES});
+
+    console.log(response);
     yield call(showSuccessNotification, response + "");
   } catch (error: any) {
     yield call(showErrorNotification, error);

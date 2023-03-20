@@ -32,7 +32,6 @@ import Archive from "./Archive";
 import DirectMessages from "./DirectMessages";
 import { CHATS_TABS } from "../../../constants";
 import Logo from "../../../assets/images/logo_transparent_white.png";
-import Favourites from "./Favourites";
 
 interface IndexProps {}
 const Index = (props: IndexProps) => {

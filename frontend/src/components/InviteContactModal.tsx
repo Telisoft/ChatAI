@@ -3,8 +3,9 @@ import { Button, Form, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader 
 
 interface DataTypes {
   email: string | null;
-  name: string | null;
-  message: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  phoneNumber: string | null;
 }
 interface InviteContactModalProps {
   isOpen: boolean;
@@ -21,18 +22,20 @@ const InviteContactModal = ({
   */
   const [data, setData] = useState<DataTypes>({
     email: null,
-    name: null,
-    message: null,
+    firstName: null,
+    lastName: null,
+    phoneNumber: null,
   });
   useEffect(() => {
     setData({
       email: null,
-      name: null,
-      message: null,
+      firstName: null,
+      lastName: null,
+      phoneNumber: null,
     });
   }, []);
 
-  const onChangeData = (field: "email" | "name" | "message", value: string) => {
+  const onChangeData = (field: "email" | "phoneNumber" | "firstName" | "lastName", value: string) => {
     let modifiedData: DataTypes = { ...data };
     if (value === "") {
       modifiedData[field] = null;
@@ -47,7 +50,7 @@ const InviteContactModal = ({
   */
   const [valid, setValid] = useState<boolean>(false);
   useEffect(() => {
-    if (data.email !== null && data.message !== null && data.name !== null) {
+    if (data.email !== null && data.phoneNumber !== null && data.firstName !== null && data.lastName !== null) {
       setValid(true);
     } else {
       setValid(false);
@@ -77,36 +80,49 @@ const InviteContactModal = ({
           </div>
           <div className="mb-3">
             <Label htmlFor="AddContactModalname-input" className="form-label">
-              Name
+              First Name
             </Label>
             <Input
               type="text"
               className="form-control"
               id="AddContactModalname-input"
-              placeholder="Enter Name"
-              value={data["name"] || ""}
+              placeholder="Enter First Name"
+              value={data["firstName"] || ""}
               onChange={(e: any) => {
-                onChangeData("name", e.target.value);
+                onChangeData("firstName", e.target.value);
               }}
             />
           </div>
           <div className="mb-3">
-            <Label
-              htmlFor="AddContactModal-invitemessage-input"
-              className="form-label"
-            >
-              Invatation Message
+            <Label htmlFor="AddContactModalname-input" className="form-label">
+              Last Name
             </Label>
-            <textarea
-              value={data["message"] || ""}
-              onChange={(e: any) => {
-                onChangeData("message", e.target.value);
-              }}
+            <Input
+              type="text"
               className="form-control"
-              id="AddContactModal-invitemessage-input"
-              rows={3}
-              placeholder="Enter Message"
-            ></textarea>
+              id="AddContactModalname-input"
+              placeholder="Enter Last Name"
+              value={data["lastName"] || ""}
+              onChange={(e: any) => {
+                onChangeData("lastName", e.target.value);
+              }}
+            />
+          </div>
+
+          <div className="mb-3">
+            <Label htmlFor="AddContactModalname-input" className="form-label">
+              Phone Number
+            </Label>
+            <Input
+              type="number"
+              className="form-control"
+              id="AddContactModalname-input"
+              placeholder="Enter Phone Number"
+              value={data["phoneNumber"] || ""}
+              onChange={(e: any) => {
+                onChangeData("phoneNumber", e.target.value);
+              }}
+            />
           </div>
         </Form>
       </ModalBody>

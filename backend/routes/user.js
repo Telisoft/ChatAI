@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { StatusCodes} from "http-status-codes";
 import * as UserService from '../models/user.js';
-import { contacts, userChannels, conversations } from "../data/contacts.js";
+import * as ContactService from '../models/contact.js'
+import { contacts, userChannels } from "../data/contacts.js";
 import { getDirectMessages, getUser } from "../models/contact.js";
 import { getConversationById } from "../models/conversation.js";
 
@@ -215,5 +216,17 @@ router.get('/get-user-conversations/:id', async  (req, res, next) => {
 
     res.status(StatusCodes.OK).send(conversation);
 });
+
+router.post('/invite-contact', async (req, res, next) => {
+    try {
+        const result = await ContactService.addContact(req.body);
+        res.status(StatusCodes.OK).send("Successfully added");
+    } catch (error) {
+        console.log(error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: error.message });
+    }
+});
+
+
 
 export default router;

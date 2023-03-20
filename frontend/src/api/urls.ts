@@ -16,7 +16,7 @@ export const UPDATE_ETTINGS = `${process.env.REACT_APP_BACKEND_URL}update-user-s
 
 // contacts
 export const GET_CONTACTS = `${process.env.REACT_APP_BACKEND_URL}user/user-contacts`;
-export const INVITE_CONTACT = `${process.env.REACT_APP_BACKEND_URL}invite-contact`;
+export const INVITE_CONTACT = `${process.env.REACT_APP_BACKEND_URL}user/invite-contact`;
 
 // calls
 export const GET_CALLS_LIST = `${process.env.REACT_APP_BACKEND_URL}user/calls-list`;

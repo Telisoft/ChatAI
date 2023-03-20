@@ -29,7 +29,8 @@ import {
   receiveMessage as receiveMessageApi,
   receiveMessageFromUser as receiveMessageFromUserApi,
   sendMessage,
-  sendMessageBackend, sendSMS,
+  sendMessageBackend,
+  sendSMS,
   toggleArchiveContact as toggleArchiveContactApi,
   toggleFavouriteContact as toggleFavouriteContactApi
 } from "../../api/index";

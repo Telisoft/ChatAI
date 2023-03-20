@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Alert, Button, Col, Form, Row, UncontrolledTooltip } from "reactstrap";
+import React from "react";
+import { Alert, Button, Col, Form, Row } from "reactstrap";
 // hooks
 import { useRedux } from "../../hooks/index";
 // router
