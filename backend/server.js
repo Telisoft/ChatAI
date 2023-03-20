@@ -31,4 +31,3 @@ httpServer.listen(app.get('port'), function () {
     console.log('Running on : ', port);
     initData();
 });
-

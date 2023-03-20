@@ -5,6 +5,7 @@ import * as ContactService from '../models/contact.js'
 import { contacts, userChannels } from "../data/contacts.js";
 import { getDirectMessages, getUser } from "../models/contact.js";
 import { getConversationById } from "../models/conversation.js";
+
 import { getMessages } from "../models/message.js";
 
 const router = Router();
@@ -210,6 +211,7 @@ router.get('/get-user-conversations/:id', async  (req, res, next) => {
     for (let i = 0; i < messages.length; i ++) {
         messages[i].time = messages[i].time.toDate();
     }
+
     conversation['messages'] = messages;
 
     res.status(StatusCodes.OK).send(conversation);
