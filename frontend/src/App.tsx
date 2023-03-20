@@ -7,9 +7,6 @@ import { changelayoutMode } from "./redux/actions";
 //Route
 import Routes from "./routes";
 //api config
-import config from "./config";
-import fakeBackend from "./helpers/fakeBackend";
-import socketIOClient from "socket.io-client";
 
 // Import Firebase Configuration file
 // import { initFirebaseBackend } from "./helpers/firebase_helper";

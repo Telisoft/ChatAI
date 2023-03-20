@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 // hooks
 import { useRedux } from "../../../hooks/index";
-import socketIOClient from 'socket.io-client';
+import socketIOClient from "socket.io-client";
 // hooks
 import { useProfile } from "../../../hooks";
 // components
@@ -12,7 +12,7 @@ import Message from "./Message";
 import { MessagesTypes } from "../../../data/messages";
 import ForwardModal from "../../../components/ForwardModal";
 // actions
-import { deleteImage, forwardMessage, acceptMessage } from "../../../redux/actions";
+import { acceptMessage, deleteImage, forwardMessage } from "../../../redux/actions";
 
 // import Day from "./Day";
 interface ConversationProps {

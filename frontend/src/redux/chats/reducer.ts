@@ -1,6 +1,5 @@
 // types
 import { ChatsActionTypes, ChatsState } from "./types";
-import { conversations, onChangeConversations } from "../../data";
 
 export const INIT_STATE: ChatsState = {
   favourites: [],

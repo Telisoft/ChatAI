@@ -6,11 +6,8 @@ import {
   deleteMessage,
   deleteUserMessages,
   getChatUserConversations,
-  onSendMessage,
-  onSendMessageToAI, onSendSMS,
-  readMessage,
-  receiveMessage,
-  receiveMessageFromUser,
+  onSendMessageToAI,
+  onSendSMS,
   toggleArchiveContact,
   toggleUserDetailsTab
 } from "../../../redux/actions";
