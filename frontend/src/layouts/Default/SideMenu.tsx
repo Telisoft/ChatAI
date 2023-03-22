@@ -136,7 +136,7 @@ const ProfileDropdownMenu = ({ onChangeTab }: ProfileDropdownMenuProps) => {
         <img src={avatar1} alt="" className="profile-user rounded-circle" />
       </DropdownToggle>
       <DropdownMenu>
-        <DropdownItem
+        {/*<DropdownItem
           className="d-flex align-items-center justify-content-between"
           onClick={() => onChangeTab(TABS.USERS)}
         >
@@ -155,7 +155,7 @@ const ProfileDropdownMenu = ({ onChangeTab }: ProfileDropdownMenuProps) => {
           Change Password <i className="bx bx-lock-open text-muted ms-1"></i>
         </DropdownItem>
 
-        <DropdownItem />
+        <DropdownItem />*/}
         <DropdownItem
           className="d-flex align-items-center justify-content-between"
           tag="a"

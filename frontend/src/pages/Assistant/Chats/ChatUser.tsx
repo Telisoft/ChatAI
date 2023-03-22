@@ -30,8 +30,6 @@ const ChatUser = ({ user, selectedChat, onSelectChat }: ChatUserProps) => {
   const isSelectedChat: boolean =
     selectedChat && selectedChat === user.id ? true : false;
   const onClick = () => {
-    console.log('user: ', user);
-
     onSelectChat(user.phoneNumber);
   };
 

@@ -60,9 +60,9 @@ router.post('/send-sms', async (req, res, next) => {
     }
 });
 
-router.get('/receive-sms', async (req, res, next) => {
+router.post('/receive-sms', async (req, res, next) => {
     try {
-        const message = await saveSMS(req.body.data);
+        const message = await saveSMS(req.body);
         const io = req.app.get('socketio');
 
         io.emit('5144772222', message);

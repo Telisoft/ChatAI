@@ -54,7 +54,7 @@ export const contacts = [
         id: "614ecab4aeecaa03e8244d57",
         firstName: "Carla",
         lastName: "Serrano",
-        profileImage: "../assets/images/users/avatar-1.jpg",
+        // profileImage: "../assets/images/users/avatar-1.jpg",
         about: "If several languages coalesce, the grammar of the resulting.",
         email: "adc@123.com",
         location: "California, USA",

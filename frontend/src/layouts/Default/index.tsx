@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { changelayoutMode } from "../../redux/actions";
 // components
 import { useDispatch } from "react-redux";
+import SideMenu from "./SideMenu";
 
 interface IndexProps {
   children: any;
@@ -25,7 +26,7 @@ const Index = (props: IndexProps) => {
   return (
     <div className="layout-wrapper d-lg-flex">
       {/* side menu */}
-      {/*<SideMenu onChangeLayoutMode={onChangeLayoutMode} />*/}
+      <SideMenu onChangeLayoutMode={onChangeLayoutMode} />
 
       {props.children}
       <ToastContainer autoClose={2000} />
