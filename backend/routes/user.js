@@ -43,8 +43,8 @@ router.get('/profile-details', async  (req, res, next) => {
             fullName: "Kathryn Swarey",
             email: "admin@themesbrand.com",
             location: "California, USA",
-            avatar: "../assets/images/users/avatar-1.jpg",
-            coverImage: "../assets/images/small/img-4.jpg",
+            // avatar: "../assets/images/users/avatar-1.jpg",
+            // coverImage: "../assets/images/small/img-4.jpg",
         },
         media: {
             total: 17,
@@ -159,10 +159,10 @@ router.get('/user-contacts', async  (req, res, next) => {
 router.get('/user-settings', async  (req, res, next) => {
     const settings = {
         basicDetails: {
-            firstName: "Kathryn",
-            lastName: "Swarey",
-            profile: "../assets/images/users/avatar-1.jpg",
-            coverImage: "../assets/images/small/img-4.jpg",
+            firstName: "Joseph",
+            lastName: "Brown",
+            // profile: "../assets/images/users/avatar-1.jpg",
+            // coverImage: "../assets/images/small/img-4.jpg",
             email: "adc@123.com",
             location: "California, USA",
         },

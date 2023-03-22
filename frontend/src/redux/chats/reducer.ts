@@ -302,6 +302,10 @@ const Chats = (state = INIT_STATE, action: any) => {
         isUserConversationsFetched: false,
         getUserConversationsLoading: true,
         isUserMessageSent: false,
+        chatUserConversations: {
+          ...state.chatUserConversations,
+          messages: [],
+        },
       };
     case ChatsActionTypes.TOGGLE_USER_DETAILS_TAB:
       return {

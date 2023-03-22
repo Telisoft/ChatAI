@@ -134,6 +134,7 @@ const Conversation = ({
       >
         {(messages || []).map((message: MessagesTypes, key: number) => {
           const isFromMe = message.sender + "" === userProfile.phoneNumber + "";
+          console.log('message:', message.text);
           return (
             <Message
               message={message}
