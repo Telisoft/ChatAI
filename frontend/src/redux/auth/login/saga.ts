@@ -1,4 +1,4 @@
-import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
+import { call, CallEffect, put, takeEvery, takeLatest } from "redux-saga/effects";
 // Login Redux States
 import { AuthLoginActionTypes } from "./types";
 import { authLoginApiResponseError, authLoginApiResponseSuccess } from "./actions";
@@ -11,10 +11,11 @@ const fireBaseBackend = getFirebaseBackend();
 function* loginUser({ payload: { user } }: any) {
   try {
     const response: Promise<any> = yield call(postJwtLogin, {
-      phoneNumber: user.phoneNumber
+      phoneNumber: user.phoneNumber,
+      password: user.password
     });
+
     setLoggeedInUser(response);
-    console.log(response);
     yield put(
       authLoginApiResponseSuccess(AuthLoginActionTypes.LOGIN_USER, response)
     );

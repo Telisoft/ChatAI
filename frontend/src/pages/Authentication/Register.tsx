@@ -38,8 +38,10 @@ const Register = (props: RegisterProps) => {
         .string()
         .email("This value should be a valid email.")
         .required("Please Enter E-mail."),
-      name: yup.string().required("Please Enter E-mail."),
-      phone_number: yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+      firstName: yup.string().required("Please Enter First Name."),
+      lastName: yup.string().required("Please Enter Last Name."),
+      phoneNumber: yup.string().matches(phoneRegExp, 'Phone Number is not valid'),
+      password: yup.string().required("Please Enter Password."),
     })
   );
 
@@ -70,7 +72,7 @@ const Register = (props: RegisterProps) => {
           <div className="py-md-5 py-4">
             <AuthHeader
               title="Register Account"
-              subtitle="Get your free Telico account now."
+              subtitle="Get your free TELICO account now."
             />
 
             {user && user ? (
@@ -86,6 +88,35 @@ const Register = (props: RegisterProps) => {
               className="position-relative"
             >
               {regLoading && <Loader />}
+
+              <div className="mb-3">
+                <FormInput
+                  label="First Name"
+                  type="text"
+                  name="firstName"
+                  register={register}
+                  errors={errors}
+                  control={control}
+                  labelClassName="form-label"
+                  placeholder="Enter First Name"
+                  className="form-control"
+                />
+              </div>
+
+              <div className="mb-3">
+                <FormInput
+                  label="Last Name"
+                  type="text"
+                  name="lastName"
+                  register={register}
+                  errors={errors}
+                  control={control}
+                  labelClassName="form-label"
+                  placeholder="Enter Last Name"
+                  className="form-control"
+                />
+              </div>
+
               <div className="mb-3">
                 <FormInput
                   label="Phone Number"
@@ -96,10 +127,11 @@ const Register = (props: RegisterProps) => {
                   errors={errors}
                   control={control}
                   labelClassName="form-label"
-                  placeholder="Enter phone number"
+                  placeholder="Enter Phone Number"
                   className="form-control"
                 />
               </div>
+
               <div className="mb-3">
                 <FormInput
                   label="Email"
@@ -116,20 +148,6 @@ const Register = (props: RegisterProps) => {
 
               <div className="mb-3">
                 <FormInput
-                  label="Username"
-                  type="text"
-                  name="name"
-                  register={register}
-                  errors={errors}
-                  control={control}
-                  labelClassName="form-label"
-                  placeholder="Enter username"
-                  className="form-control"
-                />
-              </div>
-
-              {/*<div className="mb-3">
-                <FormInput
                   label="Password"
                   type="password"
                   name="password"
@@ -140,7 +158,7 @@ const Register = (props: RegisterProps) => {
                   className="form-control pe-5"
                   placeholder="Enter Password"
                 />
-              </div>*/}
+              </div>
 
               <div className="text-center mb-3">
                 <Button

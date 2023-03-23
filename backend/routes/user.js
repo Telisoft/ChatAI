@@ -24,7 +24,7 @@ router.post('/register', async (req, res, next) => {
 router.post('/login', async (req, res, next) => {
     try {
         const result = await UserService.login(req.body);
-        res.status(StatusCodes.OK).send(result.toObject());
+        res.status(StatusCodes.OK).send(result);
     } catch (error) {
         console.log(error);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: error.message });
