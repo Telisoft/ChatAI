@@ -31,14 +31,14 @@ const MENU_ITEMS: MenuItemType[] = [
     tooltipTitle: "Chats",
     tabId: TABS.CHAT,
   },
-  /* {
+  {
      id: 3,
      key: "pills-contacts-tab",
      icon: "bx bxs-user-detail",
      tooltipTitle: "Contacts",
      tabId: TABS.CONTACTS,
    },
-   {
+  /* {
      id: 4,
      key: "pills-calls-tab",
      icon: "bx bx-phone-call",

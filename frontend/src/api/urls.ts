@@ -31,6 +31,7 @@ export const GET_FAVOURITES = `${process.env.REACT_APP_BACKEND_URL}user/get-favo
 export const GET_DIRECT_MESSAGES = `${process.env.REACT_APP_BACKEND_URL}user/get-direct-messages`;
 export const GET_CHANNELS = `${process.env.REACT_APP_BACKEND_URL}user/get-channels`;
 export const ADD_CONTACTS = `${process.env.REACT_APP_BACKEND_URL}user/add-contact`;
+export const ADD_CONVERSATION = `${process.env.REACT_APP_BACKEND_URL}user/add-conversation`;
 export const CREATE_CHANNEL = `${process.env.REACT_APP_BACKEND_URL}create-channel`;
 export const GET_CHAT_USER_DETAILS = `${process.env.REACT_APP_BACKEND_URL}user/get-user-details`;
 export const GET_CHAT_USER_CONVERSATIONS = `${process.env.REACT_APP_BACKEND_URL}user/get-user-conversations`;

@@ -18,6 +18,10 @@ const addContacts = (contacts: Array<string | number>) => {
   return api.create(url.ADD_CONTACTS, contacts);
 };
 
+const addConversation = (userId: string) => {
+  return api.create(url.ADD_CONVERSATION, userId);
+};
+
 const createChannel = (data: object) => {
   return api.create(url.CREATE_CHANNEL, data);
 };
@@ -27,9 +31,7 @@ const getChatUserDetails = (id: string | number) => {
 };
 
 const getChatUserConversations = (id: string | number) => {
-  return api.get(url.GET_CHAT_USER_CONVERSATIONS + "/" + id, {
-    params: { id },
-  });
+  return api.create(url.GET_CHAT_USER_CONVERSATIONS, {id});
 };
 
 const sendMessage = (data: object) => {
@@ -114,6 +116,7 @@ export {
   getDirectMessages,
   getChannels,
   addContacts,
+  addConversation,
   createChannel,
   getChatUserDetails,
   getChatUserConversations,

@@ -6,6 +6,7 @@ axios.defaults.baseURL = config.API_URL;
 
 // content type
 axios.defaults.headers.post["Content-Type"] = "application/json";
+axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
 
 // intercepting to capture errors
 axios.interceptors.response.use(

@@ -123,7 +123,8 @@ const ContactModal = ({ isOpen, onClose, onAddContact }: ContactModalProps) => {
   const onSelectContact = (id: string | number, selected: boolean) => {
     let modifiedList: Array<string | number> = [...selectedContacts];
     if (selected) {
-      modifiedList = [...modifiedList, id];
+      // modifiedList = [...modifiedList, id];
+      modifiedList = [id];
     } else {
       modifiedList = modifiedList.filter(m => m + "" !== id + "");
     }

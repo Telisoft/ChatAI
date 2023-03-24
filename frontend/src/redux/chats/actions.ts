@@ -28,6 +28,11 @@ export const addContacts = (contacts: Array<string | number>) => ({
   payload: contacts,
 });
 
+export const addConversation = (conversation: object) => ({
+  type: ChatsActionTypes.ADD_CONVERSATION,
+  payload: conversation,
+});
+
 export interface CreateChannelPostData {
   name: string;
   members: Array<string | number>;

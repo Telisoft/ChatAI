@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { StatusCodes} from "http-status-codes";
-import * as UserService from '../models/user.js';
-import * as ContactService from '../models/contact.js'
+import * as UserService from '../services/user.service.js';
+import * as ContactService from '../services/contact.service.js'
+import * as ConversationService from "../services/conversation.service.js";
+import * as MessageService from "../services/message.service.js";
 import { contacts, userChannels } from "../data/contacts.js";
-import { getDirectMessages, getUser } from "../models/contact.js";
-import { getConversationById } from "../models/conversation.js";
-
-import { getMessages } from "../models/message.js";
+import auth from "../middleware/auth.js";
+import {getUser} from "../services/user.service.js";
 
 const router = Router();
 
@@ -104,13 +104,18 @@ router.get('/profile-details', async  (req, res, next) => {
     res.status(StatusCodes.OK).send(profileDetails);
 });
 
-router.get('/get-favourites', async  (req, res, next) => {
+router.get('/get-favourites', async (req, res, next) => {
     res.status(StatusCodes.OK).send([]);
 });
 
-router.get('/get-direct-messages', async  (req, res, next) => {
-    const directMessages = await getDirectMessages();
-    res.status(StatusCodes.OK).send(directMessages);
+router.get('/get-direct-messages', auth, async (req, res, next) => {
+    try {
+        const directMessages = await ConversationService.getDirectMessages(req.body);
+        res.status(StatusCodes.OK).send(directMessages);
+    } catch (error) {
+        console.log(error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: error.message });
+    }
 });
 
 router.get('/get-channels', async  (req, res, next) => {
@@ -152,8 +157,14 @@ router.get('/bookmarks-list', async  (req, res, next) => {
     res.status(StatusCodes.OK).send(bookmarks);
 });
 
-router.get('/user-contacts', async  (req, res, next) => {
-    res.status(StatusCodes.OK).send(contacts);
+router.get('/user-contacts', auth, async  (req, res) => {
+    try {
+        const result = await ContactService.getContact(req.body);
+        res.status(StatusCodes.OK).send(result);
+    } catch (error) {
+        console.log(error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: error.message });
+    }
 });
 
 router.get('/user-settings', async  (req, res, next) => {
@@ -185,48 +196,60 @@ router.get('/user-settings', async  (req, res, next) => {
     res.status(StatusCodes.OK).send(settings);
 });
 
-router.get('/get-user-details/:id', async  (req, res, next) => {
-    let data = [];
-    if (req.params.id) {
-        data = await getUser(req.params.id);
-    }
-    res.status(StatusCodes.OK).send(data);
-});
-
-router.put('/read-conversation/:id', async  (req, res, next) => {
-    res.status(StatusCodes.OK).send([]);
-});
-
-router.get('/get-user-conversations/:id', async  (req, res, next) => {
-    /*const data = { receiver: req.params.id };
-    const data = { receiver: req.params.id };*/
-
-    const conversation = await getConversationById(req.params.id);
-
-    if (conversation === false) {
-        return res.status(StatusCodes.OK).send({ messages: []});
-    }
-
-    const messages = await getMessages(conversation.id);
-    for (let i = 0; i < messages.length; i ++) {
-        messages[i].time = messages[i].time.toDate();
-    }
-
-    conversation['messages'] = messages;
-
-    res.status(StatusCodes.OK).send(conversation);
-});
-
-router.post('/invite-contact', async (req, res, next) => {
+router.get('/get-user-details/:id', async (req, res, next) => {
     try {
-        const result = await ContactService.addContact(req.body);
-        res.status(StatusCodes.OK).send("Successfully added");
+        let data = [];
+        if (req.params.id) {
+            data = await getUser(req.params.id);
+        }
+        res.status(StatusCodes.OK).send(data);
     } catch (error) {
         console.log(error);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: error.message });
     }
 });
 
+router.put('/read-conversation/:id', async  (req, res, next) => {
+    res.status(StatusCodes.OK).send([]);
+});
 
+router.post('/get-user-conversations', auth, async (req, res, next) => {
+    const conversation = await ConversationService.getConversationById(req.body);
+
+    if (conversation === false) {
+        return res.status(StatusCodes.OK).send({ messages: []});
+    }
+
+    const messages = await MessageService.getMessages(conversation.id);
+    for (let i = 0; i < messages.length; i ++) {
+        messages[i].time = messages[i].time.toDate();
+    }
+
+    conversation['messages'] = messages;
+    const result = { success: true };
+    result.data = conversation
+
+    res.status(StatusCodes.OK).send(result);
+});
+
+router.post('/invite-contact', auth, async (req, res, next) => {
+    try {
+        const result = await ContactService.addContact(req.body);
+        res.status(StatusCodes.OK).send(result);
+    } catch (error) {
+        console.log(error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: error.message });
+    }
+});
+
+router.post('/add-conversation', auth, async (req, res, next) => {
+    try {
+        const result = await ConversationService.addConversation(req.body);
+        res.status(StatusCodes.OK).send(result);
+    } catch (error) {
+        console.log(error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: error.message });
+    }
+});
 
 export default router;

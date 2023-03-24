@@ -8,6 +8,7 @@ import { useRedux } from "../../../hooks/index";
 // interfaces
 import {
   addContacts,
+  addConversation,
   changeSelectedChat,
   createChannel,
   CreateChannelPostData,
@@ -115,7 +116,8 @@ const Index = (props: IndexProps) => {
     setIsOpenAddContact(false);
   };
   const onAddContact = (contacts: Array<string | number>) => {
-    dispatch(addContacts(contacts));
+    // dispatch(addContacts(contacts));
+    dispatch(addConversation({ userId: contacts[0]}));
   };
   useEffect(() => {
     if (isContactsAdded) {

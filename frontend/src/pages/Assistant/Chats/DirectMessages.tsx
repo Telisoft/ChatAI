@@ -30,15 +30,15 @@ const DirectMessages = ({
             Direct Messages
           </h4>
         </div>
-        {/*<div className="flex-shrink-0">*/}
-        {/*  <div id="new-message" title="New Message">*/}
-        {/*    /!* Button trigger modal *!/*/}
-        {/*    <AddButton onClick={openAddContact} /> /!* contactModal *!/*/}
-        {/*  </div>*/}
-        {/*  <UncontrolledTooltip target="new-message" placement="bottom">*/}
-        {/*    New Message*/}
-        {/*  </UncontrolledTooltip>*/}
-        {/*</div>*/}
+        <div className="flex-shrink-0">
+          <div id="new-message" title="New Message">
+            {/* Button trigger modal */}
+            <AddButton onClick={openAddContact} /> {/* contactModal */}
+          </div>
+          <UncontrolledTooltip target="new-message" placement="bottom">
+            New Message
+          </UncontrolledTooltip>
+        </div>
       </div>
 
       <div className="chat-message-list">
