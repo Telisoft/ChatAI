@@ -10,7 +10,12 @@ axios.defaults.headers.post["Content-Type"] = "application/json";
 // intercepting to capture errors
 axios.interceptors.response.use(
   function (response: any) {
-    return response.data ? response.data : response;
+    const { data } = response;
+    if (data.success === false) {
+      return Promise.reject(data.message);
+    } else {
+      return data.data ? data.data : data;
+    }
   },
   function (error: any) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger

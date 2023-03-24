@@ -19,7 +19,7 @@ import { changeTab } from "../../redux/actions";
 import { TABS } from "../../constants/index";
 import LightDarkMode from "../../components/LightDarkMode";
 //images
-import avatar1 from "../../assets/images/users/avatar-1.jpg";
+import avatar1 from "../../assets/images/users/profile-placeholder.png";
 // menu
 import { MENU_ITEMS, MenuItemType } from "./menu";
 

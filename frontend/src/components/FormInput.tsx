@@ -114,13 +114,13 @@ const FormInput: React.FunctionComponent<FormInputProps> = ({
             <>
               {label ? (
                 <>
-                  {!withoutLabel && (
+                  {/*{!withoutLabel && (
                     <div className="float-end">
                       <a href="auth-recoverpw" className="text-muted">
                         Forgot password?
                       </a>
                     </div>
-                  )}
+                  )}*/}
 
                   <Label htmlFor={name} className={labelClassName}>
                     {label}

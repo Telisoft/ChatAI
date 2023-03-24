@@ -111,7 +111,6 @@ export const getChatCompletion = async (input) => {
 
     try {
         const response = await API.createChatCompletion({
-            // model: "gpt-4-32k",
             model: "gpt-3.5-turbo",
             messages: messages,
             max_tokens: 2048,

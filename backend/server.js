@@ -4,7 +4,7 @@ import cors from 'cors';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import routes from './routes/index.js';
-import { initData } from './models/contact.js';
+import { initData } from './models/user.js';
 
 dotenv.config();
 const app = express();

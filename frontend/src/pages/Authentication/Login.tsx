@@ -56,11 +56,13 @@ const Login = (props: LoginProps) => {
   const resolver = yupResolver(
     yup.object().shape({
       phoneNumber: yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+      password: yup.string().required("Please Enter Password."),
     })
   );
 
   const defaultValues: any = {
     phoneNumber: "",
+    password: "",
   };
 
   const methods = useForm({ defaultValues, resolver });
@@ -113,7 +115,7 @@ const Login = (props: LoginProps) => {
                 />
               </div>
 
-              {/*<div className="mb-3">
+              <div className="mb-3">
                 <FormInput
                   label="Password"
                   type="password"
@@ -125,7 +127,7 @@ const Login = (props: LoginProps) => {
                   className="form-control pe-5"
                   placeholder="Enter Password"
                 />
-              </div>*/}
+              </div>
 
               <div className="text-center mt-4">
                 <Button color="primary" className="w-100" type="submit">
