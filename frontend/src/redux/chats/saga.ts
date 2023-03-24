@@ -12,6 +12,7 @@ import {
 
 import {
   addContacts as addContactsApi,
+  addConversation as addConversationApi,
   createChannel as createChannelApi,
   deleteImage as deleteImageApi,
   deleteMessage as deleteMessageApi,
@@ -80,6 +81,18 @@ function* addContacts({ payload: contacts }: any) {
     yield put(chatsApiResponseError(ChatsActionTypes.ADD_CONTACTS, error));
   }
 }
+
+function* addConversation({ payload: conversation }: any) {
+  try {
+    const response: Promise<any> = yield call(addConversationApi, conversation);
+    yield put(chatsApiResponseSuccess(ChatsActionTypes.ADD_CONVERSATION, response));
+    yield call(showSuccessNotification, response + "");
+  } catch (error: any) {
+    yield call(showErrorNotification, error);
+    yield put(chatsApiResponseError(ChatsActionTypes.ADD_CONVERSATION, error));
+  }
+}
+
 function* createChannel({ payload: channelData }: any) {
   try {
     const response: Promise<any> = yield call(createChannelApi, channelData);
@@ -100,6 +113,7 @@ function* getChatUserDetails({ payload: id }: any) {
       chatsApiResponseSuccess(ChatsActionTypes.GET_CHAT_USER_DETAILS, response)
     );
   } catch (error: any) {
+    console.log('detailsuer: error');
     yield put(
       chatsApiResponseError(ChatsActionTypes.GET_CHAT_USER_DETAILS, error)
     );
@@ -116,6 +130,7 @@ function* getChatUserConversations({ payload: id }: any) {
       )
     );
   } catch (error: any) {
+    console.log('error');
     yield put(
       chatsApiResponseError(ChatsActionTypes.GET_CHAT_USER_CONVERSATIONS, error)
     );
@@ -139,7 +154,6 @@ function* onSendMessage({ payload: data }: any) {
 function* onSendSMS({ payload: data }: any) {
   try {
     const response: string = yield call(sendSMS, { data });
-    console.log('response', response);
 
     yield put(
       chatsApiResponseSuccess(ChatsActionTypes.ON_SEND_SMS, response)
@@ -154,7 +168,6 @@ function* onSendSMS({ payload: data }: any) {
 function* onSendMessageBackend({ payload: data }: any) {
   try {
     const response: string = yield call(sendMessageBackend, { data });
-    console.log('response', response);
 
     yield put(
       chatsApiResponseSuccess(ChatsActionTypes.ON_SEND_MESSAGE_TO_AI, response)
@@ -345,6 +358,9 @@ export function* watchGetChannels() {
 export function* watchAddContacts() {
   yield takeEvery(ChatsActionTypes.ADD_CONTACTS, addContacts);
 }
+export function* watchAddConversation() {
+  yield takeEvery(ChatsActionTypes.ADD_CONVERSATION, addConversation);
+}
 export function* watchCreateChannel() {
   yield takeEvery(ChatsActionTypes.CREATE_CHANNEL, createChannel);
 }
@@ -421,6 +437,7 @@ function* chatsSaga() {
     fork(watchGetDirectMessages),
     fork(watchGetChannels),
     fork(watchAddContacts),
+    fork(watchAddConversation),
     fork(watchCreateChannel),
     fork(watchGetChatUserDetails),
     fork(watchGetChatUserConversations),

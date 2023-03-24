@@ -16,6 +16,7 @@ function* loginUser({ payload: { user } }: any) {
     });
 
     setLoggeedInUser(response);
+
     yield put(
       authLoginApiResponseSuccess(AuthLoginActionTypes.LOGIN_USER, response)
     );

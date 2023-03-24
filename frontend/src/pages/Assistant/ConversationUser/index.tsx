@@ -75,8 +75,8 @@ const Index = ({ isChannel }: IndexProps) => {
       time: new Date().toISOString(),
       image: data.image && data.image,
       attachments: data.attachments && data.attachments,
-      receiver: chatUserDetails.phoneNumber,
-      sender: userProfile.phoneNumber,
+      receiver: chatUserDetails.id,
+      sender: userProfile.id,
     };
 
     console.log(params);
@@ -110,7 +110,7 @@ const Index = ({ isChannel }: IndexProps) => {
       isUserMessagesDeleted ||
       isImageDeleted
     ) {
-      dispatch(getChatUserConversations(chatUserDetails.phoneNumber));
+      dispatch(getChatUserConversations(chatUserDetails.id));
     }
   }, [
     dispatch,

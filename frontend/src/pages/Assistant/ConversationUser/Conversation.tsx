@@ -22,6 +22,11 @@ interface ConversationProps {
   onSetReplyData: (reply: null | MessagesTypes | undefined) => void;
   isChannel: boolean;
 }
+
+const socket = socketIOClient(`${process.env.REACT_APP_SOCKET_URL}`, {
+  transports: ["websocket"]
+});
+
 const Conversation = ({
   chatUserDetails,
   chatUserConversations,
@@ -73,16 +78,24 @@ const Conversation = ({
     }
   }, [chatUserConversations.messages, scrollElement]);
 
+  // useEffect(() => {
+  //
+  // }, [chatUserConversations]);
+
   useEffect(() => {
-    const socket = socketIOClient(`${process.env.REACT_APP_SOCKET_URL}`, {
-      transports: ["websocket"]
-    });
-    socket.on('5144772222', (message) => {
-      console.log(message);
-      dispatch(acceptMessage(message));
+    socket.on(`${userProfile.id}`, (message) => {
+      const target = chatUserConversations.sender === userProfile.id? chatUserConversations.receiver : chatUserConversations.sender;
+      if (message.sender === target) {
+        dispatch(acceptMessage(message));
+      }
+
     });
 
-  }, []);
+    // returned function will be called on component unmount
+    return () => {
+      socket.off();
+    }
+  }, [chatUserConversations])
 
   /*
   forward message
@@ -133,8 +146,7 @@ const Conversation = ({
         id="chat-conversation-list"
       >
         {(messages || []).map((message: MessagesTypes, key: number) => {
-          const isFromMe = message.sender + "" === userProfile.phoneNumber + "";
-          console.log('message:', message.text);
+          const isFromMe = message.sender + "" === userProfile.id + "";
           return (
             <Message
               message={message}

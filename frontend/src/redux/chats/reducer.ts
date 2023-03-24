@@ -62,6 +62,7 @@ const Chats = (state = INIT_STATE, action: any) => {
             getUserDetailsLoading: false,
           };
         case ChatsActionTypes.GET_CHAT_USER_CONVERSATIONS:
+          console.log('GET_CHAT_USER_CONVERSATIONS', action.payload);
           return {
             ...state,
             chatUserConversations: action.payload.data,
@@ -189,6 +190,7 @@ const Chats = (state = INIT_STATE, action: any) => {
             getUserDetailsLoading: false,
           };
         case ChatsActionTypes.GET_CHAT_USER_CONVERSATIONS:
+          console.log('GET_CHAT_USER_CONVERSATIONS', action.payload);
           return {
             ...state,
             chatUserConversations: {

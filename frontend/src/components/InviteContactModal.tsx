@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Button, Form, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 
 interface DataTypes {
-  email: string | null;
-  firstName: string | null;
-  lastName: string | null;
   phoneNumber: string | null;
 }
 interface InviteContactModalProps {
@@ -21,21 +18,15 @@ const InviteContactModal = ({
   data input handeling
   */
   const [data, setData] = useState<DataTypes>({
-    email: null,
-    firstName: null,
-    lastName: null,
     phoneNumber: null,
   });
   useEffect(() => {
     setData({
-      email: null,
-      firstName: null,
-      lastName: null,
       phoneNumber: null,
     });
   }, []);
 
-  const onChangeData = (field: "email" | "phoneNumber" | "firstName" | "lastName", value: string) => {
+  const onChangeData = (field: "phoneNumber", value: string) => {
     let modifiedData: DataTypes = { ...data };
     if (value === "") {
       modifiedData[field] = null;
@@ -50,7 +41,7 @@ const InviteContactModal = ({
   */
   const [valid, setValid] = useState<boolean>(false);
   useEffect(() => {
-    if (data.email !== null && data.phoneNumber !== null && data.firstName !== null && data.lastName !== null) {
+    if (data.phoneNumber !== null) {
       setValid(true);
     } else {
       setValid(false);
@@ -63,7 +54,7 @@ const InviteContactModal = ({
       </ModalHeader>
       <ModalBody className="p-4">
         <Form>
-          <div className="mb-3">
+          {/*<div className="mb-3">
             <Label htmlFor="AddContactModalemail-input" className="form-label">
               Email
             </Label>
@@ -107,7 +98,7 @@ const InviteContactModal = ({
                 onChangeData("lastName", e.target.value);
               }}
             />
-          </div>
+          </div>*/}
 
           <div className="mb-3">
             <Label htmlFor="AddContactModalname-input" className="form-label">
