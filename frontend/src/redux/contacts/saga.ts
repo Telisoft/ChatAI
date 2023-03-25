@@ -28,7 +28,7 @@ function* inviteContact({ payload: newPassword }: any) {
       contactsApiResponseSuccess(ContactsActionTypes.INVITE_CONTACT, response)
     );
 
-    yield put({type: ChatsActionTypes.GET_DIRECT_MESSAGES});
+    yield put({type: ContactsActionTypes.GET_CONTACTS});
 
     console.log(response);
     yield call(showSuccessNotification, response + "");

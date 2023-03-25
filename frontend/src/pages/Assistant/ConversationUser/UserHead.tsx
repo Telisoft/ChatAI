@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-  Alert,
+  Alert, Button,
   Col,
   Dropdown,
   DropdownItem,
@@ -355,9 +355,9 @@ const UserHead = ({
             isChannel={isChannel}
           />
         </Col>
-        {/*<Col sm={8} className="col-4">
+        <Col sm={8} className="col-4">
           <ul className="list-inline user-chat-nav text-end mb-0">
-            <li className="list-inline-item">
+            {/*<li className="list-inline-item">
               <Search />
             </li>
 
@@ -395,7 +395,7 @@ const UserHead = ({
               >
                 <i className="bx bxs-info-circle"></i>
               </button>
-            </li>
+            </li>*/}
 
             <li className="list-inline-item">
               <More
@@ -407,7 +407,7 @@ const UserHead = ({
               />
             </li>
           </ul>
-        </Col>*/}
+        </Col>
       </Row>
       {/*<PinnedAlert onOpenPinnedTab={onOpenPinnedTab} />*/}
       {isOpenAudioModal && (

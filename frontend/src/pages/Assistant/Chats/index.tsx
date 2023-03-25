@@ -3,10 +3,11 @@ import React, { useEffect, useState } from "react";
 import { Button, Form, UncontrolledTooltip } from "reactstrap";
 import { Link } from "react-router-dom";
 // hooks
-import { useRedux } from "../../../hooks/index";
+import { useProfile, useRedux } from "../../../hooks/index";
 // actions
 // interfaces
 import {
+  acceptMessage, acceptUnreadMessage,
   addContacts,
   addConversation,
   changeSelectedChat,
@@ -33,11 +34,20 @@ import Archive from "./Archive";
 import DirectMessages from "./DirectMessages";
 import { CHATS_TABS } from "../../../constants";
 import Logo from "../../../assets/images/logo_transparent_white.png";
+import socketIOClient from "socket.io-client";
+import { MessagesTypes } from "../../../data";
 
 interface IndexProps {}
+
+const socket = socketIOClient(`${process.env.REACT_APP_SOCKET_URL}`, {
+  transports: ["websocket"]
+});
+
+
 const Index = (props: IndexProps) => {
   // global store
   const { dispatch, useAppSelector } = useRedux();
+  const { userProfile } = useProfile();
 
   const {
     isContactInvited,
@@ -50,6 +60,7 @@ const Index = (props: IndexProps) => {
     isContactArchiveToggled,
     chatUserDetails,
     directMessages,
+    chatUserConversations,
   } = useAppSelector(state => ({
     isContactInvited: state.Contacts.isContactInvited,
     favourites: state.Chats.favourites,
@@ -62,6 +73,7 @@ const Index = (props: IndexProps) => {
     archiveContacts: state.Chats.archiveContacts,
     isContactArchiveToggled: state.Chats.isContactArchiveToggled,
     chatUserDetails: state.Chats.chatUserDetails,
+    chatUserConversations: state.Chats.chatUserConversations,
   }));
 
   /*
@@ -78,6 +90,36 @@ const Index = (props: IndexProps) => {
       dispatch(getDirectMessages());
     }
   }, [dispatch, isFavouriteContactToggled]);
+
+
+  useEffect(() => {
+    console.log('1231231231');
+    console.log(`${userProfile.id}`);
+    console.log('socket on');
+    socket.on(`${userProfile.id}`, (message: MessagesTypes) => {
+      if (message.sender === chatUserDetails.id) {
+        dispatch(acceptMessage(message));
+      } else {
+        for (let i = 0; i < directMessages.length; i ++) {
+          if (directMessages[i].id === message.sender) {
+            if (directMessages[i].unRead === undefined) {
+              directMessages[i].unRead = 1;
+            } else {
+              directMessages[i].unRead = directMessages[i].unRead + 1;
+            }
+          }
+        }
+        dispatch(acceptUnreadMessage(directMessages));
+      }
+    });
+
+    // returned function will be called on component unmount
+    return () => {
+      console.log('socket off');
+      socket.off();
+    }
+  }, [directMessages, chatUserConversations]);
+
 
   /*
   invite contact modal handeling
@@ -118,6 +160,7 @@ const Index = (props: IndexProps) => {
   const onAddContact = (contacts: Array<string | number>) => {
     // dispatch(addContacts(contacts));
     dispatch(addConversation({ userId: contacts[0]}));
+    setIsOpenAddContact(false);
   };
   useEffect(() => {
     if (isContactsAdded) {

@@ -12,7 +12,7 @@ import Message from "./Message";
 import { MessagesTypes } from "../../../data/messages";
 import ForwardModal from "../../../components/ForwardModal";
 // actions
-import { acceptMessage, deleteImage, forwardMessage } from "../../../redux/actions";
+import { deleteImage, forwardMessage } from "../../../redux/actions";
 
 // import Day from "./Day";
 interface ConversationProps {
@@ -22,10 +22,6 @@ interface ConversationProps {
   onSetReplyData: (reply: null | MessagesTypes | undefined) => void;
   isChannel: boolean;
 }
-
-const socket = socketIOClient(`${process.env.REACT_APP_SOCKET_URL}`, {
-  transports: ["websocket"]
-});
 
 const Conversation = ({
   chatUserDetails,
@@ -77,25 +73,6 @@ const Conversation = ({
       scrollElement();
     }
   }, [chatUserConversations.messages, scrollElement]);
-
-  // useEffect(() => {
-  //
-  // }, [chatUserConversations]);
-
-  useEffect(() => {
-    socket.on(`${userProfile.id}`, (message) => {
-      const target = chatUserConversations.sender === userProfile.id? chatUserConversations.receiver : chatUserConversations.sender;
-      if (message.sender === target) {
-        dispatch(acceptMessage(message));
-      }
-
-    });
-
-    // returned function will be called on component unmount
-    return () => {
-      socket.off();
-    }
-  }, [chatUserConversations])
 
   /*
   forward message
