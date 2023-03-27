@@ -119,9 +119,9 @@ export const forwardMessage = (data: object) => ({
   payload: data,
 });
 
-export const deleteUserMessages = (userId: number | string) => ({
+export const deleteUserMessages = (conversationId: number | string) => ({
   type: ChatsActionTypes.DELETE_USER_MESSAGES,
-  payload: userId,
+  payload: conversationId,
 });
 
 export const getChannelDetails = (id: number | string) => ({

@@ -245,13 +245,14 @@ function* forwardMessage({ payload: data }: any) {
   }
 }
 
-function* deleteUserMessages({ payload: userId }: any) {
+function* deleteUserMessages({ payload: conversationId }: any) {
   try {
-    const response: Promise<any> = yield call(deleteUserMessagesApi, userId);
+    const response: Promise<any> = yield call(deleteUserMessagesApi, conversationId);
     yield put(
       chatsApiResponseSuccess(ChatsActionTypes.DELETE_USER_MESSAGES, response)
     );
-    yield call(showSuccessNotification, response + "");
+    yield put({type: ChatsActionTypes.GET_DIRECT_MESSAGES});
+    yield call(showSuccessNotification, "Success");
   } catch (error: any) {
     yield call(showErrorNotification, error + "");
     yield put(

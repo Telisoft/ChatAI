@@ -66,7 +66,7 @@ const ContactItem = ({ contact, onSelectChat }: ContactItemProps) => {
               <i className="bx bx-dots-vertical-rounded align-middle"></i>
             </DropdownToggle>
             <DropdownMenu className="dropdown-menu-end">
-              <DropdownItem
+              {/*<DropdownItem
                 className="d-flex align-items-center justify-content-between"
                 href="#"
               >
@@ -77,7 +77,7 @@ const ContactItem = ({ contact, onSelectChat }: ContactItemProps) => {
                 href="#"
               >
                 Block <i className="bx bx-block ms-2 text-muted"></i>
-              </DropdownItem>
+              </DropdownItem>*/}
               <DropdownItem
                 className="d-flex align-items-center justify-content-between"
                 href="#"

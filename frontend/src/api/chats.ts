@@ -70,9 +70,9 @@ const forwardMessage = (data: object) => {
   return api.create(url.FORWARD_MESSAGE, data);
 };
 
-const deleteUserMessages = (userId: number | string) => {
-  return api.delete(url.DELETE_USER_MESSAGES + "/" + userId, {
-    params: { userId },
+const deleteUserMessages = (conversationId: number | string) => {
+  return api.delete(url.DELETE_USER_MESSAGES, {
+    params: { conversationId },
   });
 };
 

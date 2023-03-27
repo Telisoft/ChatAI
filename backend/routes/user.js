@@ -252,4 +252,17 @@ router.post('/add-conversation', auth, async (req, res, next) => {
     }
 });
 
+
+router.delete('/delete-user-messages', auth, async (req, res, next) => {
+    try {
+        const result = await ConversationService.deleteConversation(req);
+        res.status(StatusCodes.OK).send(result);
+    } catch (error) {
+        console.log(error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: error.message });
+    }
+});
+
+
+
 export default router;

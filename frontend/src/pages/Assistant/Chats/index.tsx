@@ -93,8 +93,6 @@ const Index = (props: IndexProps) => {
 
 
   useEffect(() => {
-    console.log('1231231231');
-    console.log(`${userProfile.id}`);
     console.log('socket on');
     socket.on(`${userProfile.id}`, (message: MessagesTypes) => {
       if (message.sender === chatUserDetails.id) {

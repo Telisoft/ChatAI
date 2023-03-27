@@ -127,7 +127,8 @@ const Index = ({ isChannel }: IndexProps) => {
   };
 
   const onDeleteUserMessages = () => {
-    dispatch(deleteUserMessages(chatUserDetails.id));
+    console.log(chatUserConversations.id);
+    dispatch(deleteUserMessages(chatUserConversations.id));
   };
 
   const onToggleArchive = () => {

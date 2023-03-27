@@ -198,7 +198,7 @@ const More = ({
         <i className="bx bx-dots-vertical-rounded"></i>
       </DropdownToggle>
       <DropdownMenu className="dropdown-menu-end">
-        <DropdownItem
+        {/*<DropdownItem
           className="d-flex justify-content-between align-items-center d-lg-none user-profile-show"
           to="#"
         >
@@ -217,8 +217,8 @@ const More = ({
           onClick={onOpenVideo}
         >
           Video <i className="bx bx-video text-muted"></i>
-        </DropdownItem>
-        <DropdownItem
+        </DropdownItem>*/}
+        {/*<DropdownItem
           className="d-flex justify-content-between align-items-center"
           to="#"
           onClick={onToggleArchive}
@@ -232,13 +232,13 @@ const More = ({
               Archive <i className="bx bx-archive text-muted"></i>
             </>
           )}
-        </DropdownItem>
-        <DropdownItem
+        </DropdownItem>*/}
+        {/*<DropdownItem
           className="d-flex justify-content-between align-items-center"
           to="#"
         >
           Muted <i className="bx bx-microphone-off text-muted"></i>
-        </DropdownItem>
+        </DropdownItem>*/}
         <DropdownItem
           className="d-flex justify-content-between align-items-center"
           to="#"
