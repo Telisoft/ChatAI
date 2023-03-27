@@ -209,8 +209,15 @@ router.get('/get-user-details/:id', async (req, res, next) => {
     }
 });
 
-router.put('/read-conversation/:id', async  (req, res, next) => {
-    res.status(StatusCodes.OK).send([]);
+router.put('/read-conversation/:id', auth, async  (req, res, next) => {
+    try {
+        const data = {sender: req.body.user.id, receiver: req.params.id};
+        const result = await ConversationService.readConversation(data);
+        res.status(StatusCodes.OK).send(result);
+    } catch (error) {
+        console.log(error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: error.message });
+    }
 });
 
 router.post('/get-user-conversations', auth, async (req, res, next) => {

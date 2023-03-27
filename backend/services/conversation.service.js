@@ -53,7 +53,7 @@ export const getConversation = async (data) => {
         .where('isDeleted', '==', false)
         .fetch();
     if (conversations1.list.length > 0) {
-        return conversations1.list[0].toObject();
+        return conversations1.list[0];
     }
 
     const conversations2 = await Conversation.collection
@@ -62,7 +62,7 @@ export const getConversation = async (data) => {
         .where('isDeleted', '==', false)
         .fetch();
     if (conversations2.list.length > 0) {
-        return conversations2.list[0].toObject();
+        return conversations2.list[0];
     }
 
     const conversation = Conversation.init();
@@ -124,6 +124,7 @@ export const getDirectMessages = async (data) => {
         const users = [];
         for (let i = 0; i < conversation.list.length; i++) {
             const user = await User.collection.get({id: conversation.list[i].receiver});
+            user.unRead = conversation.list[i].unRead;
             users.push(user);
         }
 
@@ -134,5 +135,21 @@ export const getDirectMessages = async (data) => {
         return result;
     } catch (error) {
         console.log(error);
+    }
+}
+
+export const readConversation  = async (data) => {
+    const result = { success: false };
+
+    try {
+        const conversation = await getConversation(data);
+        conversation.unRead = 0;
+        await conversation.update();
+
+        result.success = true;
+        return result;
+    } catch (error) {
+        result.message = "Failed";
+        return result;
     }
 }

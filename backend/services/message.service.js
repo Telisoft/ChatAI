@@ -40,6 +40,9 @@ export const saveSMS = async (data) => {
     message.conversationId = conversation.id;
     await message.save();
 
+    conversation.unRead = conversation.unRead + 1;
+    await conversation.update();
+
     return message;
 }
 
