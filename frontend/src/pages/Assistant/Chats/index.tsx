@@ -97,6 +97,7 @@ const Index = (props: IndexProps) => {
     socket.on(`${userProfile.id}`, (message: MessagesTypes) => {
       if (message.sender === chatUserDetails.id) {
         dispatch(acceptMessage(message));
+        dispatch(readConversation(chatUserDetails.id));
       } else {
         for (let i = 0; i < directMessages.length; i ++) {
           if (directMessages[i].id === message.sender) {

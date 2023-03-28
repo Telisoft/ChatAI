@@ -1,6 +1,7 @@
 import {User} from "../models/user.js";
 import {Conversation} from "../models/conversation.js";
 import {getUser} from "./user.service.js";
+import * as MessageService from "./message.service.js";
 
 export const addConversation = async (param) => {
     try {
@@ -124,7 +125,12 @@ export const getDirectMessages = async (data) => {
         const users = [];
         for (let i = 0; i < conversation.list.length; i++) {
             const user = await User.collection.get({id: conversation.list[i].receiver});
-            user.unRead = conversation.list[i].unRead;
+            if (data.user.id === conversation.receiver) {
+                user.unRead = conversation.list[i].unReadReceiver;
+            } else {
+                user.unRead = conversation.list[i].unReadSender;
+            }
+
             users.push(user);
         }
 
@@ -138,13 +144,29 @@ export const getDirectMessages = async (data) => {
     }
 }
 
-export const readConversation  = async (data) => {
+export const readConversation = async (data) => {
     const result = { success: false };
 
     try {
+
+        // reset unread field in conversation
         const conversation = await getConversation(data);
-        conversation.unRead = 0;
+        if (data.receiver === conversation.receiver) {
+            conversation.unReadReceiver = 0;
+        } else {
+            conversation.unReadSender = 0;
+        }
         await conversation.update();
+
+
+        const messages = await MessageService.getMessages(conversation.id);
+        for (let i = 0; i < messages.length; i ++) {
+            if (data.receiver === messages[i].receiver) {
+                messages[i].read = true;
+                messages[i].time = messages[i].time.toDate();
+                await messages[i].update();
+            }
+        }
 
         result.success = true;
         return result;
@@ -152,4 +174,11 @@ export const readConversation  = async (data) => {
         result.message = "Failed";
         return result;
     }
+}
+
+export const getUnreadConversation = async () => {
+    const conversations1 = Conversation.collection.where('unReadSender', '>', 0).fetch();
+    const conversations2 = Conversation.collection.where('unReadReceiver', '>', 0).fetch();
+    const conversations = conversations1.list.concat(conversations2.list);
+    return conversations;
 }

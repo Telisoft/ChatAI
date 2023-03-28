@@ -1,3 +1,4 @@
+import nodemailer from 'nodemailer';
 import { Router } from 'express';
 import { StatusCodes} from "http-status-codes";
 import * as UserService from '../services/user.service.js';
@@ -6,7 +7,6 @@ import * as ConversationService from "../services/conversation.service.js";
 import * as MessageService from "../services/message.service.js";
 import { contacts, userChannels } from "../data/contacts.js";
 import auth from "../middleware/auth.js";
-import {getUser} from "../services/user.service.js";
 
 const router = Router();
 
@@ -200,7 +200,7 @@ router.get('/get-user-details/:id', async (req, res, next) => {
     try {
         let data = [];
         if (req.params.id) {
-            data = await getUser(req.params.id);
+            data = await UserService.getUser(req.params.id);
         }
         res.status(StatusCodes.OK).send(data);
     } catch (error) {
@@ -211,7 +211,7 @@ router.get('/get-user-details/:id', async (req, res, next) => {
 
 router.put('/read-conversation/:id', auth, async  (req, res, next) => {
     try {
-        const data = {sender: req.body.user.id, receiver: req.params.id};
+        const data = {receiver: req.body.user.id, sender: req.params.id};
         const result = await ConversationService.readConversation(data);
         res.status(StatusCodes.OK).send(result);
     } catch (error) {
@@ -277,6 +277,43 @@ router.delete('/delete-contact', auth, async (req, res, next) => {
         console.log(error);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: error.message });
     }
+});
+
+router.post('/text-mail', async (req, res, next) => {
+    const transporter = nodemailer.createTransport({
+        port: 465,
+        host: "smtp.gmail.com",
+        auth: {
+            user: process.env.EMAILADDRESS,
+            pass: process.env.PASSWORD,
+        },
+        secure: true, // upgrades later with STARTTLS -- change this based on the PORT
+    });
+
+    const conversations = await ConversationService.getUnreadConversation();
+
+    for (let i = 0; i < conversations.length; i ++) {
+        let to = '';
+        if (conversations[i].unReadSender > 0) {
+            to = UserService.getUserById(conversations[i].sender).email;
+        } else {
+            to = UserService.getUserById(conversations[i].receiver).email;
+        }
+        const mailData = {
+            from: 'noreply_telico@gmail.com',
+            to: to,
+            subject: process.env.TITLE,
+            text: 'UnRead Messages',
+            html: '<b>Hey there! </b><br> You have unread message on Teleco<br/><br>' + process.env.UNREAD_MESSAGE_LINK,
+        };
+
+        transporter.sendMail(mailData, (error, info) => {
+            if (error) {
+                return console.log(error);
+            }
+        });
+    }
+    next();
 });
 
 export default router;
