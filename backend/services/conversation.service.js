@@ -31,6 +31,8 @@ export const addConversation = async (param) => {
             sender.isDeleted = false;
             sender.user = user.data.key;
             sender.receiver = user.data.id;
+            sender.unReadSender = 0;
+            sender.unReadReceiver = 0;
             sender.status = "Active";
             await sender.save();
 
@@ -86,8 +88,8 @@ export const getConversationById = async (data) => {
     }
 
     const conversation2 = await Conversation.collection
-        .where('sender', '==', data.user.id)
-        .where('receiver', '==', data.id)
+        .where('receiver', '==', data.user.id)
+        .where('sender', '==', data.id)
         .where('isDeleted', '==', false)
         .get();
     if (conversation2 !== undefined) {
@@ -117,18 +119,27 @@ export const getDirectMessages = async (data) => {
         const userId =  data.user.id;
 
         let result = { success: false };
-        const conversation = await Conversation.collection
+        const conversation1 = await Conversation.collection
             .where('sender', '==', userId)
             .where('isDeleted', '==', false)
             .fetch();
 
+        const conversation2 = await Conversation.collection
+            .where('receiver', '==', userId)
+            .where('isDeleted', '==', false)
+            .fetch();
+
+        const conversations = conversation1.list.concat(conversation2.list);
+
         const users = [];
-        for (let i = 0; i < conversation.list.length; i++) {
-            const user = await User.collection.get({id: conversation.list[i].receiver});
-            if (data.user.id === conversation.receiver) {
-                user.unRead = conversation.list[i].unReadReceiver;
+        for (let i = 0; i < conversations.length; i++) {
+            let user = {};
+            if (data.user.id === conversations[i].sender) {
+                user = await User.collection.get({id: conversations[i].receiver});
+                user.unRead = conversations[i].unReadSender;
             } else {
-                user.unRead = conversation.list[i].unReadSender;
+                user = await User.collection.get({id: conversations[i].sender});
+                user.unRead = conversations[i].unReadReceiver;
             }
 
             users.push(user);
@@ -157,7 +168,6 @@ export const readConversation = async (data) => {
             conversation.unReadSender = 0;
         }
         await conversation.update();
-
 
         const messages = await MessageService.getMessages(conversation.id);
         for (let i = 0; i < messages.length; i ++) {
