@@ -7,7 +7,7 @@ import {
   chatsApiResponseSuccess,
   getChannels as getChannelsAction,
   getDirectMessages as getDirectMessagesAction,
-  getFavourites as getFavouritesAction
+  getFavourites as getFavouritesAction,
 } from "./actions";
 
 import {
@@ -76,6 +76,7 @@ function* addContacts({ payload: contacts }: any) {
     const response: Promise<any> = yield call(addContactsApi, contacts);
     yield put(chatsApiResponseSuccess(ChatsActionTypes.ADD_CONTACTS, response));
     yield call(showSuccessNotification, response + "");
+
   } catch (error: any) {
     yield call(showErrorNotification, error);
     yield put(chatsApiResponseError(ChatsActionTypes.ADD_CONTACTS, error));
@@ -87,6 +88,7 @@ function* addConversation({ payload: conversation }: any) {
     const response: Promise<any> = yield call(addConversationApi, conversation);
     yield put(chatsApiResponseSuccess(ChatsActionTypes.ADD_CONVERSATION, response));
     yield call(showSuccessNotification, response + "");
+    yield put({type: ChatsActionTypes.GET_DIRECT_MESSAGES});
   } catch (error: any) {
     yield call(showErrorNotification, error);
     yield put(chatsApiResponseError(ChatsActionTypes.ADD_CONVERSATION, error));
@@ -243,13 +245,14 @@ function* forwardMessage({ payload: data }: any) {
   }
 }
 
-function* deleteUserMessages({ payload: userId }: any) {
+function* deleteUserMessages({ payload: conversationId }: any) {
   try {
-    const response: Promise<any> = yield call(deleteUserMessagesApi, userId);
+    const response: Promise<any> = yield call(deleteUserMessagesApi, conversationId);
     yield put(
       chatsApiResponseSuccess(ChatsActionTypes.DELETE_USER_MESSAGES, response)
     );
-    yield call(showSuccessNotification, response + "");
+    yield put({type: ChatsActionTypes.GET_DIRECT_MESSAGES});
+    yield call(showSuccessNotification, "Success");
   } catch (error: any) {
     yield call(showErrorNotification, error + "");
     yield put(

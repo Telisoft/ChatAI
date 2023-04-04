@@ -16,6 +16,7 @@ export const create = async (data) => {
     user.lastName = lastName;
     user.password = bcrypt.hashSync(password, 10);
     user.email = email;
+    user.status = 'Active';
     user.role = 'user';
     user.phoneNumber = phoneNumber;
     await user.save();

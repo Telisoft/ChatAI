@@ -7,6 +7,7 @@ export class User extends Model {
     email = Field.Text();
     profileImage = Field.Text();
     phoneNumber = Field.Text();
+    status = Field.Text();
     role = Field.Text();
     createdAt = Field.DateTime({auto: true});
     updatedAt = Field.DateTime({auto: true});

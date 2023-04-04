@@ -6,6 +6,11 @@ import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from "reactstrap
 import { DivideByKeyResultTypes } from "../../../utils";
 // interfaaces
 import { ContactTypes } from "../../../data/contacts";
+import { useDispatch } from "react-redux";
+
+import {
+  deleteContact,
+} from "../../../redux/actions";
 
 interface ContactItemProps {
   contact: ContactTypes;
@@ -13,6 +18,8 @@ interface ContactItemProps {
 }
 const ContactItem = ({ contact, onSelectChat }: ContactItemProps) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const dispatch = useDispatch();
 
   const toggle = () => setDropdownOpen(!dropdownOpen);
 
@@ -30,6 +37,11 @@ const ContactItem = ({ contact, onSelectChat }: ContactItemProps) => {
     "bg-purple",
   ];
   const [color] = useState(Math.floor(Math.random() * colors.length));
+
+  const onDeleteContact = () => {
+    console.log(contact.id);
+    dispatch(deleteContact(contact.id));
+  }
 
   return (
     <li onClick={() => onSelectChat(contact.id)}>
@@ -66,7 +78,7 @@ const ContactItem = ({ contact, onSelectChat }: ContactItemProps) => {
               <i className="bx bx-dots-vertical-rounded align-middle"></i>
             </DropdownToggle>
             <DropdownMenu className="dropdown-menu-end">
-              <DropdownItem
+              {/*<DropdownItem
                 className="d-flex align-items-center justify-content-between"
                 href="#"
               >
@@ -77,10 +89,10 @@ const ContactItem = ({ contact, onSelectChat }: ContactItemProps) => {
                 href="#"
               >
                 Block <i className="bx bx-block ms-2 text-muted"></i>
-              </DropdownItem>
+              </DropdownItem>*/}
               <DropdownItem
                 className="d-flex align-items-center justify-content-between"
-                href="#"
+                onClick={onDeleteContact}
               >
                 Remove <i className="bx bx-trash ms-2 text-muted"></i>
               </DropdownItem>

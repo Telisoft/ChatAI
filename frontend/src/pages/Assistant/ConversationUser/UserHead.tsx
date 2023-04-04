@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-  Alert,
+  Alert, Button,
   Col,
   Dropdown,
   DropdownItem,
@@ -198,7 +198,7 @@ const More = ({
         <i className="bx bx-dots-vertical-rounded"></i>
       </DropdownToggle>
       <DropdownMenu className="dropdown-menu-end">
-        <DropdownItem
+        {/*<DropdownItem
           className="d-flex justify-content-between align-items-center d-lg-none user-profile-show"
           to="#"
         >
@@ -217,8 +217,8 @@ const More = ({
           onClick={onOpenVideo}
         >
           Video <i className="bx bx-video text-muted"></i>
-        </DropdownItem>
-        <DropdownItem
+        </DropdownItem>*/}
+        {/*<DropdownItem
           className="d-flex justify-content-between align-items-center"
           to="#"
           onClick={onToggleArchive}
@@ -232,13 +232,13 @@ const More = ({
               Archive <i className="bx bx-archive text-muted"></i>
             </>
           )}
-        </DropdownItem>
-        <DropdownItem
+        </DropdownItem>*/}
+        {/*<DropdownItem
           className="d-flex justify-content-between align-items-center"
           to="#"
         >
           Muted <i className="bx bx-microphone-off text-muted"></i>
-        </DropdownItem>
+        </DropdownItem>*/}
         <DropdownItem
           className="d-flex justify-content-between align-items-center"
           to="#"
@@ -355,9 +355,9 @@ const UserHead = ({
             isChannel={isChannel}
           />
         </Col>
-        {/*<Col sm={8} className="col-4">
+        <Col sm={8} className="col-4">
           <ul className="list-inline user-chat-nav text-end mb-0">
-            <li className="list-inline-item">
+            {/*<li className="list-inline-item">
               <Search />
             </li>
 
@@ -395,7 +395,7 @@ const UserHead = ({
               >
                 <i className="bx bxs-info-circle"></i>
               </button>
-            </li>
+            </li>*/}
 
             <li className="list-inline-item">
               <More
@@ -407,7 +407,7 @@ const UserHead = ({
               />
             </li>
           </ul>
-        </Col>*/}
+        </Col>
       </Row>
       {/*<PinnedAlert onOpenPinnedTab={onOpenPinnedTab} />*/}
       {isOpenAudioModal && (

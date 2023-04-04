@@ -19,6 +19,11 @@ export const getContacts = (filters?: object) => ({
   payload: filters,
 });
 
+export const deleteContact = (id: number | string) => ({
+  type: ContactsActionTypes.DELETE_CONTACT,
+  payload: id,
+});
+
 export const inviteContact = (data: any) => ({
   type: ContactsActionTypes.INVITE_CONTACT,
   payload: data,

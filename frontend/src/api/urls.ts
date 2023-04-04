@@ -17,6 +17,7 @@ export const UPDATE_ETTINGS = `${process.env.REACT_APP_BACKEND_URL}update-user-s
 // contacts
 export const GET_CONTACTS = `${process.env.REACT_APP_BACKEND_URL}user/user-contacts`;
 export const INVITE_CONTACT = `${process.env.REACT_APP_BACKEND_URL}user/invite-contact`;
+export const DELETE_CONTACT = `${process.env.REACT_APP_BACKEND_URL}user/delete-contact`;
 
 // calls
 export const GET_CALLS_LIST = `${process.env.REACT_APP_BACKEND_URL}user/calls-list`;
@@ -44,7 +45,7 @@ export const READ_MESSAGE = `${process.env.REACT_APP_BACKEND_URL}read-message`;
 export const RECEIVE_MESSAGE_FROM_USER = `${process.env.REACT_APP_BACKEND_URL}receive-message-from-user`;
 export const DELETE_MESSAGE = `${process.env.REACT_APP_BACKEND_URL}delete-message`;
 export const FORWARD_MESSAGE = `${process.env.REACT_APP_BACKEND_URL}forward-message`;
-export const DELETE_USER_MESSAGES = `${process.env.REACT_APP_BACKEND_URL}delete-user-messages`;
+export const DELETE_USER_MESSAGES = `${process.env.REACT_APP_BACKEND_URL}user/delete-user-messages`;
 export const TOGGLE_FAVOURITE_CONTACT = `${process.env.REACT_APP_BACKEND_URL}toggle-favourite-contact`;
 export const GET_ARCHIVE_CONTACT = `${process.env.REACT_APP_BACKEND_URL}user/get-archive-contacts`;
 export const TOGGLE_ARCHIVE_CONTACT = `${process.env.REACT_APP_BACKEND_URL}toggle-archive-contact`;

@@ -152,7 +152,7 @@ const ContactModal = ({ isOpen, onClose, onAddContact }: ContactModalProps) => {
       className="contactModal"
     >
       <ModalHeader className="modal-title-custom" toggle={onClose}>
-        Add Contact
+        Add Message
       </ModalHeader>
       <ModalBody className="p-4">
         <InputGroup className="mb-4">

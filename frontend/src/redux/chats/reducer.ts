@@ -361,6 +361,11 @@ const Chats = (state = INIT_STATE, action: any) => {
           ]
         }
       };
+    case ChatsActionTypes.ACCEPT_UNREAD_MESSAGE:
+      return {
+        ...state,
+        directMessages: action.payload,
+      };
     case ChatsActionTypes.DELETE_MESSAGE:
       return {
         ...state,

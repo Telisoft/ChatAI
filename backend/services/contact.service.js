@@ -1,5 +1,6 @@
 import {User} from "../models/user.js";
 import {Contact} from "../models/contact.js";
+import {Conversation} from "../models/conversation.js";
 
 export const addContact = async (param) => {
     try {
@@ -98,3 +99,24 @@ export const getContact = async (data) => {
         console.log(error);
     }
 }
+
+export const deleteContact = async (req) => {
+    const result = { success: false };
+
+    const contacts = await Contact.collection.where('userId', '==', req.body.user.id).fetch();
+
+    for (let i = 0; i < contacts.list.length; i ++) {
+        if (contacts.list[i].user.id === req.query.contactId) {
+            await contacts.list[i].delete();
+
+            result.success = true;
+            result.message = "Success";
+            return result;
+        }
+    }
+
+    result.message = "Failed";
+    return result;
+}
+
+deleteContact

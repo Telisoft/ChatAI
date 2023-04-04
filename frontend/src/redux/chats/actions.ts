@@ -1,4 +1,5 @@
 import { ChatsActionTypes } from "./types";
+import { MessagesTypes, UserTypes } from "../../data";
 
 // common success
 export const chatsApiResponseSuccess = (actionType: string, data: any) => ({
@@ -85,9 +86,14 @@ export const receiveMessage = (id: number | string) => ({
   payload: id,
 });
 
-export const acceptMessage = (id: number | string) => ({
+export const acceptMessage = (message: MessagesTypes) => ({
   type: ChatsActionTypes.ACCEPT_MESSAGE,
-  payload: id,
+  payload: message,
+});
+
+export const acceptUnreadMessage = (directMessages: Array<UserTypes>) => ({
+  type: ChatsActionTypes.ACCEPT_UNREAD_MESSAGE,
+  payload: directMessages,
 });
 
 export const readMessage = (id: number | string) => ({
@@ -113,9 +119,9 @@ export const forwardMessage = (data: object) => ({
   payload: data,
 });
 
-export const deleteUserMessages = (userId: number | string) => ({
+export const deleteUserMessages = (conversationId: number | string) => ({
   type: ChatsActionTypes.DELETE_USER_MESSAGES,
-  payload: userId,
+  payload: conversationId,
 });
 
 export const getChannelDetails = (id: number | string) => ({

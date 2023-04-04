@@ -34,11 +34,19 @@ export const saveSMS = async (data) => {
     message.receiver = receiver.id;
     message.sent = true;
     message.received = true;
-    message.read = true;
+    message.read = false;
     message.time = new Date(data.time);
     message.text = data.msg;
     message.conversationId = conversation.id;
     await message.save();
+
+    if (conversation.receiver === message.receiver) {
+        conversation.unReadReceiver = conversation.unReadReceiver + 1;
+    } else {
+        conversation.unReadSender = conversation.unReadSender + 1;
+    }
+
+    await conversation.update();
 
     return message;
 }

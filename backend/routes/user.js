@@ -1,3 +1,4 @@
+import nodemailer from 'nodemailer';
 import { Router } from 'express';
 import { StatusCodes} from "http-status-codes";
 import * as UserService from '../services/user.service.js';
@@ -6,7 +7,6 @@ import * as ConversationService from "../services/conversation.service.js";
 import * as MessageService from "../services/message.service.js";
 import { contacts, userChannels } from "../data/contacts.js";
 import auth from "../middleware/auth.js";
-import {getUser} from "../services/user.service.js";
 
 const router = Router();
 
@@ -200,7 +200,7 @@ router.get('/get-user-details/:id', async (req, res, next) => {
     try {
         let data = [];
         if (req.params.id) {
-            data = await getUser(req.params.id);
+            data = await UserService.getUser(req.params.id);
         }
         res.status(StatusCodes.OK).send(data);
     } catch (error) {
@@ -209,8 +209,15 @@ router.get('/get-user-details/:id', async (req, res, next) => {
     }
 });
 
-router.put('/read-conversation/:id', async  (req, res, next) => {
-    res.status(StatusCodes.OK).send([]);
+router.put('/read-conversation/:id', auth, async  (req, res, next) => {
+    try {
+        const data = {receiver: req.body.user.id, sender: req.params.id};
+        const result = await ConversationService.readConversation(data);
+        res.status(StatusCodes.OK).send(result);
+    } catch (error) {
+        console.log(error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: error.message });
+    }
 });
 
 router.post('/get-user-conversations', auth, async (req, res, next) => {
@@ -249,6 +256,65 @@ router.post('/add-conversation', auth, async (req, res, next) => {
     } catch (error) {
         console.log(error);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: error.message });
+    }
+});
+
+router.delete('/delete-user-messages', auth, async (req, res, next) => {
+    try {
+        const result = await ConversationService.deleteConversation(req);
+        res.status(StatusCodes.OK).send(result);
+    } catch (error) {
+        console.log(error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: error.message });
+    }
+});
+
+router.delete('/delete-contact', auth, async (req, res, next) => {
+    try {
+        const result = await ContactService.deleteContact(req);
+        res.status(StatusCodes.OK).send(result);
+    } catch (error) {
+        console.log(error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: error.message });
+    }
+});
+
+router.post('/text-mail', async (req, res, next) => {
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAILADDRESS,
+            pass: process.env.PASSWORD,
+        }
+    });
+
+    const conversations = await ConversationService.getUnreadConversation();
+
+    for (let i = 0; i < conversations.length; i ++) {
+        let to = '';
+        if (conversations[i].unReadSender > 0) {
+            const user = await UserService.getUserById(conversations[i].sender);
+            to = user.email;
+        } else {
+            const user = await UserService.getUserById(conversations[i].receiver);
+            to = user.email;
+        }
+        const mailData = {
+            from: 'noreply_telico@gmail.com',
+            to: to,
+            subject: process.env.TITLE,
+            text: 'UnRead Messages',
+            html: '<b>Hey there! </b><br> You have unread message on Teleco<br/><br>' + process.env.UNREAD_MESSAGE_LINK,
+        };
+
+        transporter.sendMail(mailData, (error, info) => {
+            if (error) {
+                console.log(error);
+                res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: error.message });
+            } else {
+                res.status(StatusCodes.OK).send({success: true});
+            }
+        });
     }
 });
 
