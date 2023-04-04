@@ -187,8 +187,8 @@ export const readConversation = async (data) => {
 }
 
 export const getUnreadConversation = async () => {
-    const conversations1 = Conversation.collection.where('unReadSender', '>', 0).fetch();
-    const conversations2 = Conversation.collection.where('unReadReceiver', '>', 0).fetch();
+    const conversations1 = await Conversation.collection.where('unReadSender', '>', 0).fetch();
+    const conversations2 = await Conversation.collection.where('unReadReceiver', '>', 0).fetch();
     const conversations = conversations1.list.concat(conversations2.list);
     return conversations;
 }

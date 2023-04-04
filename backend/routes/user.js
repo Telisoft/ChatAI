@@ -281,13 +281,11 @@ router.delete('/delete-contact', auth, async (req, res, next) => {
 
 router.post('/text-mail', async (req, res, next) => {
     const transporter = nodemailer.createTransport({
-        port: 465,
-        host: "smtp.gmail.com",
+        service: 'gmail',
         auth: {
             user: process.env.EMAILADDRESS,
             pass: process.env.PASSWORD,
-        },
-        secure: true, // upgrades later with STARTTLS -- change this based on the PORT
+        }
     });
 
     const conversations = await ConversationService.getUnreadConversation();
@@ -295,9 +293,11 @@ router.post('/text-mail', async (req, res, next) => {
     for (let i = 0; i < conversations.length; i ++) {
         let to = '';
         if (conversations[i].unReadSender > 0) {
-            to = UserService.getUserById(conversations[i].sender).email;
+            const user = await UserService.getUserById(conversations[i].sender);
+            to = user.email;
         } else {
-            to = UserService.getUserById(conversations[i].receiver).email;
+            const user = await UserService.getUserById(conversations[i].receiver);
+            to = user.email;
         }
         const mailData = {
             from: 'noreply_telico@gmail.com',
@@ -309,11 +309,13 @@ router.post('/text-mail', async (req, res, next) => {
 
         transporter.sendMail(mailData, (error, info) => {
             if (error) {
-                return console.log(error);
+                console.log(error);
+                res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: error.message });
+            } else {
+                res.status(StatusCodes.OK).send({success: true});
             }
         });
     }
-    next();
 });
 
 export default router;

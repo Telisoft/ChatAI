@@ -1,25 +1,11 @@
 import { Router } from 'express';
-import { getTextCompletion, getChatCompletion, sendSMS } from '../services/API.js';
+import { getChatCompletion, sendSMS } from '../services/API.js';
 import { saveMessage, saveSMS } from "../services/message.service.js";
 import {getConversation} from "../services/conversation.service.js";
 import * as UserService from "../services/user.service.js";
 import * as io from "socket.io";
 
 const router = Router();
-
-router.post('/', async (req, res, next) => {
-    try {
-        const prompt = req.body.prompt;
-        const response = await getTextCompletion(prompt);
-
-        res.status(200).send({
-            bot: response
-        })
-    } catch (error) {
-        // console.log(error);
-        res.status(500).send({ error })
-    }
-});
 
 router.post('/chat', async (req, res, next) => {
     try {
