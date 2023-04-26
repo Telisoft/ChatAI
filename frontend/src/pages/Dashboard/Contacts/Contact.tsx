@@ -4,7 +4,6 @@ import classnames from "classnames";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from "reactstrap";
 //utils
 import { DivideByKeyResultTypes } from "../../../utils";
-// interfaaces
 import { ContactTypes } from "../../../data/contacts";
 
 interface ContactItemProps {
